@@ -1278,6 +1278,37 @@ let db=JSON.parse(
  expenses:[]
 };
 
+const API_URL = "http://localhost:3000/api";
+
+async function loadExpenses() {
+    try {
+        const response = await fetch(`${API_URL}/expenses`);
+
+        if (!response.ok) {
+            throw new Error("Failed to load expenses");
+        }
+
+        const data = await response.json();
+
+        db.expenses = data.map(e => ({
+            id: e.id,
+            date: e.expense_date,
+            category: e.category,
+            currency: e.currency,
+            amount: Number(e.amount),
+            description: e.description || "",
+            cancelled: Boolean(e.cancelled),
+            cancelledAt: e.cancelled_at
+        }));
+
+        renderExpenses();
+        renderExpenseSummaries();
+
+    } catch (error) {
+        console.error("Expense loading error:", error);
+        alert("Could not connect to the expenses database.");
+    }
+}
 
 /* ==============================
    ابزارها
@@ -2154,89 +2185,95 @@ $("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
 
 
 
-function saveExpense(){
+async function saveExpense(){
 
- // Get form values
- const date=$("expenseDate").value;
- const category=$("expenseCategory").value;
- const currency=$("expenseCurrency").value;
- const amount=Number($("expenseAmount").value);
- const description=$("expenseDescription").value.trim();
+    // Get form values
+    const date = $("expenseDate").value;
+    const category = $("expenseCategory").value;
+    const currency = $("expenseCurrency").value;
+    const amount = Number($("expenseAmount").value);
+    const description = $("expenseDescription").value.trim();
 
+    // Validate date
+    if(!date){
+        alert("تاریخ را انتخاب کنید.");
+        return;
+    }
 
- // Validate date
- if(!date){
-  alert("تاریخ را انتخاب کنید.");
-  return;
- }
+    // Validate amount
+    if(!Number.isFinite(amount) || amount <= 0){
+        alert("مبلغ صحیح وارد کنید.");
+        $("expenseAmount").focus();
+        return;
+    }
 
+    // Get editing ID
+    const editId = $("expenseModal").dataset.editId;
 
- // Validate amount
- if(!Number.isFinite(amount)||amount<=0){
-  alert("مبلغ صحیح وارد کنید.");
-  $("expenseAmount").focus();
-  return;
- }
+    // Prepare data for MySQL
+    const expenseData = {
+        expense_date: date,
+        category,
+        currency,
+        amount,
+        description
+    };
 
+    try {
 
- // Create expense record
- const expense={
+        let response;
 
-  id:Date.now(),
+        if(editId){
 
-  date,
+            // Update existing expense
+            response = await fetch(`${API_URL}/expenses/${editId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(expenseData)
+            });
 
-  category,
+        } else {
 
-  currency,
+            // Create new expense
+            response = await fetch(`${API_URL}/expenses`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(expenseData)
+            });
 
-  amount,
+        }
 
-  description
+        if(!response.ok){
+            throw new Error("Failed to save expense");
+        }
 
- };
+        // Reload expenses from MySQL
+        await loadExpenses();
 
+        // Close modal
+        closeModal("expenseModal");
 
- // Save expense
-const editId=$("expenseModal").dataset.editId;
+        // Reset editing state
+        $("expenseModal").dataset.editId = "";
+        $("expenseModal").querySelector("h2").textContent = "💸 مصرف روزانه";
 
-if(editId){
+        // Refresh application
+        refresh();
 
- const index=db.expenses.findIndex(
-  e=>e.id===Number(editId)
- );
+        // Confirmation
+        alert("مصرف با موفقیت ثبت شد.");
 
- if(index!==-1){
-  db.expenses[index]={
-   ...db.expenses[index],
-   ...expense,
-   id:Number(editId)
-  };
- }
+    } catch(error) {
 
-}else{
+        console.error("Expense saving error:", error);
+        alert("ذخیره مصرف ناموفق بود. اتصال به سرور را بررسی کنید.");
 
- db.expenses.push(expense);
-
+    }
 }
-
- save();
-
-// Close modal
-closeModal("expenseModal");
-
-// Reset editing state
-$("expenseModal").dataset.editId="";
-$("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
-
-// Refresh application
-refresh();
-
-// Show confirmation
-alert("مصرف با موفقیت ثبت شد.");
-
-}
-
 
 function renderExpenses(){
 
@@ -2549,25 +2586,40 @@ function clearExpenseFilters(){
 
 
 
-function deleteExpense(id){
+async function deleteExpense(id){
 
- const expense=db.expenses.find(e=>e.id===id);
+    const expense = db.expenses.find(e => e.id === id);
 
- if(!expense)return;
+    if(!expense) return;
 
- if(!confirm("آیا مطمئن هستید که می‌خواهید این مصرف را لغو کنید؟"))
-  return;
+    if(!confirm("آیا مطمئن هستید که می‌خواهید این مصرف را لغو کنید؟"))
+        return;
 
- expense.cancelled=true;
- expense.cancelledAt=new Date().toISOString();
+    try {
 
- save();
+        const response = await fetch(`${API_URL}/expenses/${id}`, {
+            method: "DELETE"
+        });
 
- refresh();
+        if(!response.ok){
+            throw new Error("Failed to cancel expense");
+        }
 
- alert("مصرف با موفقیت لغو شد.");
+        // Reload expenses from MySQL
+        await loadExpenses();
+
+        refresh();
+
+        alert("مصرف با موفقیت لغو شد.");
+
+    } catch(error) {
+
+        console.error("Expense cancellation error:", error);
+
+        alert("لغو مصرف ناموفق بود. اتصال به سرور را بررسی کنید.");
+
+    }
 }
-
 
 // Editing the daily expence 
 
@@ -3222,6 +3274,7 @@ $("transactionDate").value=today();
 $("expenseDate").value=today();
 
 refresh();
+loadExpenses();
 
 </script>
 

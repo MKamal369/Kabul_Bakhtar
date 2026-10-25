@@ -17,7 +17,11 @@ app.listen(PORT, () => {
 });
 
 app.get("/api/expenses", (req, res) => {
-    const sql = "SELECT * FROM expenses";
+    const sql = `
+    SELECT * FROM expenses
+    WHERE cancelled = FALSE
+    ORDER BY expense_date DESC
+`;
 
     db.query(sql, (err, results) => {
         if (err) {
