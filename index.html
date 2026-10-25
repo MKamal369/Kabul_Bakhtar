@@ -1,0 +1,3229 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>کابل باختر | سیستم مالی ارباب</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box}
+
+:root{
+ --bg:#06111f;
+ --panel:#0d2035;
+ --panel2:#122b45;
+ --border:#ffffff13;
+ --text:#eef8ff;
+ --muted:#8da5ba;
+ --cyan:#16d7c4;
+ --blue:#398cff;
+ --gold:#f4bd4d;
+ --green:#32dc98;
+ --red:#ff6173;
+ --purple:#9b7cff;
+}
+
+body{
+ margin:0;
+ font-family:Vazirmatn,Tahoma,sans-serif;
+ color:var(--text);
+ background:
+ radial-gradient(circle at 10% 10%,#164968 0,transparent 25%),
+ radial-gradient(circle at 90% 15%,#234b50 0,transparent 24%),
+ radial-gradient(circle at 50% 100%,#241d4e 0,transparent 30%),
+ linear-gradient(135deg,#040a12,#091827 55%,#07111e);
+ min-height:100vh;
+}
+
+button,input,select,textarea{font-family:inherit}
+
+button{cursor:pointer}
+
+.sidebar{
+ position:fixed;
+ right:0;
+ top:0;
+ bottom:0;
+ width:260px;
+ background:rgba(4,13,24,.92);
+ backdrop-filter:blur(20px);
+ border-left:1px solid var(--border);
+ padding:20px 15px;
+ z-index:20;
+}
+
+.logo{
+ padding:18px;
+ border-radius:20px;
+ background:linear-gradient(135deg,#16d7c420,#398cff18);
+ border:1px solid #ffffff10;
+ margin-bottom:25px;
+}
+
+.logo-icon{
+ width:50px;
+ height:50px;
+ display:grid;
+ place-items:center;
+ border-radius:16px;
+ font-size:25px;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+ box-shadow:0 10px 30px #16d7c433;
+ margin-bottom:12px;
+}
+
+.logo h2{margin:0 0 3px}
+.logo small{color:var(--muted)}
+
+.nav-title{
+ color:#637d96;
+ font-size:11px;
+ padding:0 12px 8px;
+}
+
+.nav button{
+ width:100%;
+ padding:13px 15px;
+ border:0;
+ border-radius:12px;
+ background:transparent;
+ color:#a7bfd2;
+ text-align:right;
+ margin:3px 0;
+ transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+ color:white;
+ background:linear-gradient(90deg,#16d7c425,#398cff12);
+ box-shadow:inset -3px 0 var(--cyan);
+}
+
+.main{
+ margin-right:260px;
+ min-height:100vh;
+}
+
+.topbar{
+ height:75px;
+ position:sticky;
+ top:0;
+ z-index:10;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 30px;
+ background:#06111fcc;
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--border);
+}
+
+.page-title{font-size:18px;font-weight:700}
+.date{font-size:12px;color:var(--muted)}
+
+.content{
+ max-width:1500px;
+ margin:auto;
+ padding:28px;
+}
+
+.page{display:none}
+.page.active{display:block;animation:show .25s}
+
+@keyframes show{
+ from{opacity:0;transform:translateY(8px)}
+ to{opacity:1;transform:none}
+}
+
+.hero{
+ position:relative;
+ overflow:hidden;
+ padding:30px;
+ border-radius:25px;
+ background:
+ linear-gradient(120deg,#16d7c41b,#398cff12,#f4bd4d0d),
+ #0d2035cc;
+ border:1px solid var(--border);
+ margin-bottom:20px;
+ box-shadow:0 20px 70px #0004;
+}
+
+.hero:after{
+ content:"";
+ position:absolute;
+ width:220px;
+ height:220px;
+ left:-70px;
+ top:-90px;
+ border-radius:50%;
+ background:#16d7c41c;
+ filter:blur(35px);
+}
+
+.hero h1{margin:0 0 8px;font-size:30px}
+.hero p{margin:0;color:var(--muted)}
+
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:9px;
+ margin-top:22px;
+}
+
+.btn{
+ border:0;
+ border-radius:11px;
+ padding:10px 16px;
+ font-weight:600;
+ transition:.2s;
+}
+
+.btn:hover{transform:translateY(-1px)}
+
+.primary{
+ color:#00221e;
+ background:linear-gradient(135deg,#38ead8,#12bdae);
+}
+
+.secondary{
+ color:white;
+ background:#ffffff0b;
+ border:1px solid var(--border);
+}
+
+.danger{color:white;background:#a72d43}
+.gold{color:#241900;background:var(--gold)}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin-bottom:20px;
+}
+
+.stat{
+ padding:20px;
+ min-height:125px;
+ border-radius:19px;
+ background:#0d2035c7;
+ border:1px solid var(--border);
+ box-shadow:0 15px 45px #0003;
+}
+
+.stat-icon{font-size:25px}
+.stat-label{font-size:11px;color:var(--muted);margin-top:8px}
+.stat-value{font-size:23px;font-weight:800;margin-top:4px}
+
+.panel{
+ padding:20px;
+ border-radius:20px;
+ background:#0d2035c9;
+ border:1px solid var(--border);
+ box-shadow:0 15px 45px #0002;
+ margin-bottom:20px;
+}
+
+.panel-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin-bottom:18px;
+}
+
+.panel h2,.panel h3{margin:0}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
+}
+
+.company{
+ padding:20px;
+ border-radius:18px;
+ background:linear-gradient(145deg,#173653c9,#0b1b2dc9);
+ border:1px solid var(--border);
+ transition:.2s;
+}
+
+.company:hover{
+ transform:translateY(-3px);
+ border-color:#16d7c455;
+}
+
+.company-head{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.company-icon{
+ width:48px;
+ height:48px;
+ display:grid;
+ place-items:center;
+ border-radius:15px;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+ font-size:22px;
+}
+
+.company h3{margin:0}
+.company small{color:var(--muted)}
+
+.company-total{
+ margin:17px 0;
+ padding:12px;
+ border-radius:12px;
+ background:#0002;
+}
+
+.mini{
+ display:flex;
+ justify-content:space-between;
+ padding:5px 0;
+ font-size:12px;
+ border-bottom:1px solid #ffffff06;
+}
+
+.mini:last-child{border:0}
+
+.green{color:var(--green)}
+.red{color:var(--red)}
+.gold-text{color:var(--gold)}
+.blue-text{color:#6da8ff}
+
+.currency-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+}
+
+.currency-card{
+ padding:15px;
+ border-radius:15px;
+ background:#ffffff05;
+ border:1px solid var(--border);
+}
+
+.currency-name{color:var(--muted);font-size:11px}
+.currency-balance{font-size:20px;font-weight:800;margin-top:6px}
+
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:13px;
+}
+
+.field label{
+ display:block;
+ font-size:11px;
+ color:#b3c7d8;
+ margin-bottom:6px;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:11px 12px;
+ color:white;
+ background:#061421;
+ border:1px solid #ffffff12;
+ border-radius:10px;
+ outline:none;
+}
+
+input:focus,select:focus,textarea:focus{
+ border-color:var(--cyan);
+ box-shadow:0 0 0 3px #16d7c412;
+}
+
+option{background:#10263c}
+textarea{min-height:90px;resize:vertical}
+
+.table-wrap{overflow:auto}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:900px;
+}
+
+th,td{
+ padding:12px 10px;
+ border-bottom:1px solid #ffffff09;
+ text-align:right;
+ font-size:12px;
+}
+
+th{color:#7791a8}
+
+tr:hover td{background:#ffffff03}
+
+.badge{
+ padding:5px 9px;
+ border-radius:30px;
+ font-size:10px;
+}
+
+.badge-in{background:#32dc9830;color:var(--green)}
+.badge-out{background:#ff617330;color:var(--red)}
+.badge-loan{background:#9b7cff25;color:#bbaaff}
+
+.company-report-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ flex-wrap:wrap;
+}
+
+.report-title{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.report-icon{
+ width:55px;
+ height:55px;
+ display:grid;
+ place-items:center;
+ border-radius:16px;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+ font-size:25px;
+}
+
+.report-title h2{margin:0}
+.report-title small{color:var(--muted)}
+
+.notice{
+ padding:13px;
+ border-radius:12px;
+ color:#bdd1e1;
+ background:#16d7c40b;
+ border:1px solid #16d7c418;
+ margin-bottom:15px;
+}
+
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:#000b;
+ backdrop-filter:blur(8px);
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+ width:min(800px,100%);
+ max-height:92vh;
+ overflow:auto;
+ padding:24px;
+ border-radius:22px;
+ background:#10263d;
+ border:1px solid var(--border);
+ box-shadow:0 30px 100px #000;
+}
+
+.modal-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:20px;
+}
+
+.close{
+ width:35px;
+ height:35px;
+ border:0;
+ border-radius:50%;
+ color:white;
+ background:#ffffff0c;
+ font-size:20px;
+}
+
+.empty{
+ text-align:center;
+ padding:35px;
+ color:var(--muted);
+}
+
+.footer{
+ text-align:center;
+ color:#637d96;
+ font-size:11px;
+ padding:25px;
+}
+
+.mobile-menu{display:none}
+
+@media(max-width:1100px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .currency-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:750px){
+
+ .sidebar{
+  transform:translateX(100%);
+  transition:.25s;
+ }
+
+ .sidebar.open{transform:translateX(0)}
+
+ .main{margin-right:0}
+
+ .mobile-menu{
+  display:block;
+  color:white;
+  background:#ffffff0b;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:8px 12px;
+ }
+
+ .topbar{padding:0 15px}
+
+ .content{padding:15px}
+
+ .stats,
+ .grid,
+ .currency-grid,
+ .form-grid{
+  grid-template-columns:1fr;
+ }
+
+ .hero h1{font-size:23px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="logo">
+  <div class="logo-icon">✈️</div>
+  <h2>کابل باختر</h2>
+  <small>سیستم مدیریت مالی</small>
+ </div>
+
+ <div class="nav-title">منوی سیستم</div>
+
+ <nav class="nav">
+
+  <button class="active" onclick="go('dashboard',this)">
+   📊 داشبورد
+  </button>
+
+  <button onclick="go('companies',this)">
+   🏢 شرکت‌ها
+  </button>
+
+  <button onclick="go('allTransactions',this)">
+   💳 تمام معاملات
+  </button>
+
+  <button onclick="go('expenses',this)">
+   💸 مصارف روزانه
+  </button>
+
+  <button onclick="go('reports',this)">
+   📑 گزارش‌ها
+  </button>
+
+  <button onclick="go('backup',this)">
+   💾 پشتیبان
+  </button>
+
+ </nav>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+ <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+
+ <div class="page-title" id="pageTitle">
+  داشبورد مالی
+ </div>
+
+ <div class="date" id="dateText"></div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+ <div class="hero">
+
+  <h1>سیستم مالی کابل باختر</h1>
+
+  <p>
+   مدیریت جداگانه شرکت‌ها، ارزها، معاملات، قرضه‌ها و مصارف
+  </p>
+
+  <div class="actions">
+
+   <button class="btn primary" onclick="newCompany()">
+    ＋ شرکت جدید
+   </button>
+
+   <button class="btn secondary" onclick="newTransaction()">
+    ＋ ثبت معامله
+   </button>
+
+   <button class="btn gold" onclick="newExpense()">
+    ＋ مصرف روزانه
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="stats">
+
+  <div class="stat">
+   <div class="stat-icon">🏢</div>
+   <div class="stat-label">تعداد شرکت‌ها</div>
+   <div class="stat-value" id="totalCompanies">0</div>
+  </div>
+
+  <div class="stat">
+   <div class="stat-icon">💳</div>
+   <div class="stat-label">تمام معاملات</div>
+   <div class="stat-value" id="totalTransactions">0</div>
+  </div>
+
+  <div class="stat">
+   <div class="stat-icon">💰</div>
+   <div class="stat-label">معاملات قرضه</div>
+   <div class="stat-value" id="totalLoans">0</div>
+  </div>
+
+  <div class="stat">
+   <div class="stat-icon">💸</div>
+   <div class="stat-label">مصارف روزانه</div>
+   <div class="stat-value" id="totalExpenses">0</div>
+  </div>
+
+ </div>
+
+
+ <div class="panel">
+
+  <div class="panel-head">
+   <h3>🏢 حساب‌های شرکت‌ها</h3>
+  </div>
+
+  <div class="grid" id="dashboardCompanies"></div>
+
+ </div>
+
+
+ <div class="panel">
+
+  <div class="panel-head">
+   <h3>🌍 ارزهای استفاده‌شده</h3>
+  </div>
+
+  <div class="currency-grid" id="globalCurrencies"></div>
+
+ </div>
+
+</section>
+
+
+<!-- COMPANIES -->
+
+<section class="page" id="companies">
+
+ <div class="panel-head">
+
+  <h2>🏢 شرکت‌ها</h2>
+
+  <button class="btn primary" onclick="newCompany()">
+   ＋ افزودن شرکت
+  </button>
+
+ </div>
+
+ <div class="grid" id="companyList"></div>
+
+</section>
+
+
+<!-- COMPANY ACCOUNT -->
+
+<section class="page" id="companyAccount">
+
+ <div id="companyAccountContent"></div>
+
+</section>
+
+
+<!-- ALL TRANSACTIONS -->
+
+<section class="page" id="allTransactions">
+
+ <div class="panel-head">
+
+  <h2>💳 تمام معاملات</h2>
+
+  <button class="btn primary" onclick="newTransaction()">
+   ＋ معامله جدید
+  </button>
+
+ </div>
+
+ <div class="panel">
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>شرکت</label>
+    <select id="filterCompany" onchange="renderAllTransactions()"></select>
+   </div>
+
+   <div class="field">
+    <label>ارز</label>
+    <select id="filterCurrency" onchange="renderAllTransactions()"></select>
+   </div>
+
+   <div class="field">
+    <label>جستجو</label>
+    <input id="searchBox"
+           oninput="renderAllTransactions()"
+           placeholder="نام شرکت، شرح یا خدمات">
+   </div>
+
+  </div>
+
+ </div>
+
+ <div class="panel">
+
+  <div class="table-wrap">
+
+   <table>
+
+    <thead>
+     <tr>
+      <th>تاریخ</th>
+      <th>شرکت</th>
+      <th>ارز</th>
+      <th>نوع</th>
+      <th>خدمات</th>
+      <th>شرح</th>
+      <th>مبلغ</th>
+      <th>حذف</th>
+     </tr>
+    </thead>
+
+    <tbody id="allTransactionTable"></tbody>
+
+   </table>
+
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- EXPENSES -->
+
+<!-- EXPENSES -->
+
+<section class="page" id="expenses">
+
+    <div class="panel-head">
+
+        <h2>💸 مصارف روزانه</h2>
+
+        <button class="btn primary" onclick="newExpense()">
+            ＋ ثبت مصرف
+        </button>
+
+    </div>
+
+
+    <!-- EXPENSE FILTER BUTTON -->
+
+    <div style="margin-bottom:15px;">
+
+        <button class="btn secondary"
+                id="expenseFilterButton"
+                onclick="toggleExpenseFilters()">
+
+            🔍 نمایش فلترها
+
+        </button>
+
+    </div>
+
+
+    <!-- EXPENSE FILTER PANEL -->
+
+    <div class="panel"
+         id="expenseFilterPanel"
+         style="display:none; margin-bottom:20px;">
+
+        <h3>🔍 تصفیه مصارف</h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>تاریخ</label>
+
+                <select id="filterExpenseDate"
+                        onchange="renderExpenses()">
+
+                    <option value="">تمام تاریخ‌ها</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>نوع مصرف</label>
+
+                <select id="filterExpenseCategory"
+                        onchange="renderExpenses()">
+
+                    <option value="">تمام مصارف</option>
+                    <option value="کرایه دفتر">کرایه دفتر</option>
+                    <option value="برق">برق</option>
+                    <option value="آب">آب</option>
+                    <option value="انترنت">انترنت</option>
+                    <option value="تیل">تیل</option>
+                    <option value="معاش">معاش</option>
+                    <option value="لوازم دفتر">لوازم دفتر</option>
+                    <option value="مهمانی">مهمانی</option>
+                    <option value="سایر">سایر</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>واحد پول</label>
+
+                <select id="filterExpenseCurrency"
+                        onchange="renderExpenses()">
+
+                    <option value="">تمام ارزها</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn secondary"
+                onclick="clearExpenseFilters()">
+
+            پاک کردن فلترها
+
+        </button>
+
+    </div>
+
+
+    <!-- EXPENSE SUMMARY -->
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <h3>📊 خلاصه مصارف</h3>
+
+        </div>
+
+        <!-- EXPENSE SUMMARY CARDS -->
+<div class="stats" id="expenseSummary">
+
+    <div class="stat">
+        <div class="stat-icon">📅</div>
+        <div class="stat-label">مصارف امروز</div>
+        <div class="stat-value">0</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">🧾</div>
+        <div class="stat-label">تعداد مصارف امروز</div>
+        <div class="stat-value">0</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📆</div>
+        <div class="stat-label">مصارف این ماه</div>
+        <div class="stat-value">0</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">📋</div>
+        <div class="stat-label">تعداد مصارف این ماه</div>
+        <div class="stat-value">0</div>
+    </div>
+
+</div>
+
+<!-- MONTH SELECTOR (OUTSIDE expenseSummary) -->
+<div id="expenseMonthSelector"
+     style="display:none; margin-top:20px;">
+
+    <div class="field">
+        <label>انتخاب ماه و سال</label>
+
+        <input type="month"
+               id="expenseMonthPicker"
+               onchange="renderExpenseSummaries()">
+    </div>
+
+</div>
+
+    </div>
+
+
+    <!-- EXPENSE TABLE -->
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <h3>📋 فهرست مصارف</h3>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>تاریخ</th>
+                        <th>دسته</th>
+                        <th>ارز</th>
+                        <th>شرح</th>
+                        <th>مبلغ</th>
+                        <th>عملیات</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="expenseTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section class="page" id="reports">
+
+ <div class="panel">
+
+  <h2>📑 گزارش شرکت</h2>
+
+  <br>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>شرکت</label>
+    <select id="reportCompany" onchange="showReport()"></select>
+   </div>
+
+   <div class="field">
+    <label>ارز</label>
+    <select id="reportCurrency" onchange="showReport()"></select>
+   </div>
+
+  </div>
+
+ </div>
+
+ <div id="reportResult"></div>
+
+</section>
+
+
+<!-- BACKUP -->
+
+<section class="page" id="backup">
+
+ <div class="panel">
+
+  <h2>💾 پشتیبان سیستم</h2>
+
+  <p style="color:var(--muted)">
+   اطلاعات تمام شرکت‌ها و معاملات را در یک فایل پشتیبان ذخیره کنید.
+  </p>
+
+  <button class="btn primary" onclick="backup()">
+   ⬇ دانلود پشتیبان
+  </button>
+
+  <button class="btn gold"
+          onclick="document.getElementById('restoreFile').click()">
+   ⬆ بازیابی
+  </button>
+
+  <input id="restoreFile"
+         type="file"
+         accept=".json"
+         hidden
+         onchange="restore(event)">
+
+ </div>
+
+</section>
+
+
+<div class="footer">
+ © 2026 کابل باختر — سازنده سیستم: <strong>ارباب</strong>
+</div>
+
+</div>
+</main>
+
+
+<!-- COMPANY MODAL -->
+
+<div class="modal" id="companyModal">
+
+ <div class="modal-box">
+
+  <div class="modal-head">
+
+   <h2>🏢 ثبت شرکت</h2>
+
+   <button class="close"
+           onclick="closeModal('companyModal')">×</button>
+
+  </div>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>نام شرکت</label>
+    <input id="companyName"
+           placeholder="مثلاً کابل باختر">
+   </div>
+
+   <div class="field">
+    <label>شماره تماس</label>
+    <input id="companyPhone">
+   </div>
+
+   <div class="field">
+    <label>توضیحات</label>
+    <input id="companyNote">
+   </div>
+
+  </div>
+
+  <br>
+
+  <button class="btn primary" onclick="saveCompany()">
+   ذخیره شرکت
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- TRANSACTION MODAL -->
+
+<div class="modal" id="transactionModal">
+
+ <div class="modal-box">
+
+  <div class="modal-head">
+
+   <h2>💳 ثبت معامله</h2>
+
+   <button class="close"
+           onclick="closeModal('transactionModal')">×</button>
+
+  </div>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>شرکت</label>
+    <select id="transactionCompany"></select>
+   </div>
+
+   <div class="field">
+    <label>تاریخ</label>
+    <input id="transactionDate" type="date">
+   </div>
+
+   <div class="field">
+    <label>نوع معامله</label>
+    <select id="transactionType">
+     <option value="income">دریافت</option>
+     <option value="expense">پرداخت</option>
+    </select>
+   </div>
+
+   <div class="field">
+    <label>ارز</label>
+    <select id="transactionCurrency"></select>
+   </div>
+
+   <div class="field">
+    <label>مبلغ</label>
+    <input id="transactionAmount"
+           type="number"
+           step="0.01">
+   </div>
+
+   <div class="field">
+    <label>نوع خدمات</label>
+    <select id="transactionService">
+
+     <option>تکت هواپیما</option>
+     <option>هوتل</option>
+     <option>ویزه</option>
+     <option>تور</option>
+     <option>ترانسپورت</option>
+
+     <option value="loan">
+      قرضه
+     </option>
+
+     <option value="loan_return">
+      پس‌گرفتن قرضه
+     </option>
+
+     <option>سایر</option>
+
+    </select>
+   </div>
+
+   <div class="field"
+        style="grid-column:1/-1">
+
+    <label>شرح معامله</label>
+
+    <textarea id="transactionDescription"
+              placeholder="مثلاً مبلغ ۲۰۰۰ دالر بابت قرضه به شرکت داده شد"></textarea>
+
+   </div>
+
+  </div>
+
+  <br>
+
+  <button class="btn primary"
+          onclick="saveTransaction()">
+   ثبت معامله
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- EXPENSE MODAL -->
+
+<div class="modal" id="expenseModal">
+
+ <div class="modal-box">
+
+  <div class="modal-head">
+
+   <h2>💸 مصرف روزانه</h2>
+
+   <button class="close"
+           onclick="closeModal('expenseModal')">×</button>
+
+  </div>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>تاریخ</label>
+    <input id="expenseDate" type="date">
+   </div>
+
+   <div class="field">
+    <label>دسته</label>
+
+    <select id="expenseCategory">
+     <option>کرایه دفتر</option>
+     <option>برق</option>
+     <option>آب</option>
+     <option>انترنت</option>
+     <option>تیل</option>
+     <option>معاش</option>
+     <option>لوازم دفتر</option>
+     <option>مهمانی</option>
+     <option>سایر</option>
+    </select>
+
+   </div>
+
+   <div class="field">
+    <label>ارز</label>
+    <select id="expenseCurrency"></select>
+   </div>
+
+   <div class="field">
+    <label>مبلغ</label>
+    <input id="expenseAmount"
+           type="number"
+           step="0.01">
+   </div>
+
+   <div class="field"
+        style="grid-column:1/-1">
+
+    <label>شرح</label>
+
+    <textarea id="expenseDescription"></textarea>
+
+   </div>
+
+  </div>
+
+  <br>
+
+  <button class="btn primary"
+          onclick="saveExpense()">
+   ثبت مصرف
+  </button>
+
+ </div>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   ارزها
+============================== */
+
+const currencies=[
+ ["AFN","؋","افغانی"],
+ ["USD","$","دالر آمریکا"],
+ ["IRR","﷼","تومان / ریال ایران"],
+ ["EUR","€","یورو"],
+ ["AED","د.إ","درهم امارات"],
+ ["PKR","₨","روپیه پاکستان"],
+ ["GBP","£","پوند"],
+ ["TRY","₺","لیر ترکیه"],
+ ["INR","₹","روپیه هند"],
+ ["SAR","﷼","ریال سعودی"],
+ ["QAR","﷼","ریال قطر"],
+ ["CNY","¥","یوان چین"],
+ ["CAD","$","دالر کانادا"],
+ ["AUD","$","دالر استرالیا"],
+ ["JPY","¥","ین جاپان"],
+ ["CHF","Fr","فرانک سوئیس"],
+ ["KWD","د.ك","دینار کویت"],
+ ["OMR","﷼","ریال عمان"],
+ ["BHD","د.ب","دینار بحرین"],
+ ["RUB","₽","روبل روسیه"]
+];
+
+
+/* ==============================
+   ذخیره اطلاعات
+============================== */
+
+let db=JSON.parse(
+ localStorage.getItem("KabulBakhtarArbab")
+)||{
+ companies:[],
+ transactions:[],
+ expenses:[]
+};
+
+
+/* ==============================
+   ابزارها
+============================== */
+
+const $=id=>document.getElementById(id);
+
+function save(){
+ localStorage.setItem(
+  "KabulBakhtarArbab",
+  JSON.stringify(db)
+ );
+}
+
+function today(){
+ return new Date().toISOString().slice(0,10);
+}
+
+function fmt(n){
+ return new Intl.NumberFormat(
+  "en-US",
+  {maximumFractionDigits:2}
+ ).format(Number(n)||0);
+}
+
+function esc(v){
+ return String(v??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+function getCurrency(code){
+ return currencies.find(x=>x[0]===code)
+ ||[code,"",code];
+}
+
+function getCompany(id){
+ return db.companies.find(x=>x.id===Number(id));
+}
+
+function companyName(id){
+ const c=getCompany(id);
+ return c?c.name:"نامشخص";
+}
+
+function currencyOptions(){
+ return currencies.map(c=>
+ `<option value="${c[0]}">
+ ${c[1]} ${c[0]} — ${c[2]}
+ </option>`
+ ).join("");
+}
+
+function companyOptions(){
+ return db.companies.map(c=>
+ `<option value="${c.id}">
+ ${esc(c.name)}
+ </option>`
+ ).join("");
+}
+
+
+/* ==============================
+   صفحه‌ها
+============================== */
+
+function go(id,button){
+
+ document.querySelectorAll(".page")
+ .forEach(x=>x.classList.remove("active"));
+
+ $(id).classList.add("active");
+
+ document.querySelectorAll(".nav button")
+ .forEach(x=>x.classList.remove("active"));
+
+ if(button)button.classList.add("active");
+
+ const titles={
+  dashboard:"داشبورد مالی",
+  companies:"شرکت‌ها",
+  companyAccount:"حساب اختصاصی شرکت",
+  allTransactions:"تمام معاملات",
+  expenses:"مصارف روزانه",
+  reports:"گزارش‌ها",
+  backup:"پشتیبان"
+ };
+
+ $("pageTitle").textContent=titles[id]||"کابل باختر";
+
+ if(id==="dashboard")renderDashboard();
+ if(id==="companies")renderCompanies();
+ if(id==="allTransactions")renderAllTransactions();
+ if(id==="expenses")renderExpenses();
+ if(id==="reports")prepareReports();
+
+ $("sidebar").classList.remove("open");
+}
+
+function toggleMenu(){
+ $("sidebar").classList.toggle("open");
+}
+
+
+/* ==============================
+   شرکت
+============================== */
+
+function newCompany(){
+ $("companyName").value="";
+ $("companyPhone").value="";
+ $("companyNote").value="";
+ $("companyModal").classList.add("show");
+}
+
+function saveCompany(){
+
+ const name=$("companyName").value.trim();
+
+ if(!name){
+  alert("نام شرکت را وارد کنید.");
+  return;
+ }
+
+ db.companies.push({
+  id:Date.now(),
+  name,
+  phone:$("companyPhone").value.trim(),
+  note:$("companyNote").value.trim()
+ });
+
+ save();
+
+ closeModal("companyModal");
+
+ refresh();
+}
+
+
+/* ==============================
+   باز کردن حساب یک شرکت
+============================== */
+
+function openCompanyAccount(id){
+
+ const c=getCompany(id);
+
+ if(!c)return;
+
+ go(
+  "companyAccount",
+  null
+ );
+
+ renderCompanyAccount(id);
+}
+
+
+/* ==============================
+   حساب کاملاً مستقل شرکت
+============================== */
+
+function renderCompanyAccount(id){
+
+ const c=getCompany(id);
+
+ if(!c)return;
+
+ /*
+    فقط معاملات همین شرکت
+    هیچ شرکت دیگری اینجا وارد نمی‌شود.
+ */
+
+ const transactions=db.transactions
+ .filter(t=>t.companyId===Number(id))
+ .sort((a,b)=>b.date.localeCompare(a.date));
+
+
+ /* ارزهایی که فقط همین شرکت استفاده کرده */
+
+ const usedCurrencies=[
+  ...new Set(
+   transactions.map(t=>t.currency)
+  )
+ ];
+
+
+ let currencyCards="";
+
+ usedCurrencies.forEach(code=>{
+
+  const list=transactions
+  .filter(t=>t.currency===code);
+
+  const received=list
+  .filter(t=>t.type==="income")
+  .reduce((s,t)=>s+Number(t.amount),0);
+
+  const paid=list
+  .filter(t=>t.type==="expense")
+  .reduce((s,t)=>s+Number(t.amount),0);
+
+  const balance=received-paid;
+
+  const cur=getCurrency(code);
+
+  currencyCards+=`
+
+  <div class="currency-card">
+
+   <div class="currency-name">
+    ${cur[1]} ${code} — ${cur[2]}
+   </div>
+
+   <div class="currency-balance
+       ${balance>=0?"green":"red"}">
+
+    ${cur[1]} ${fmt(balance)}
+
+   </div>
+
+   <div style="font-size:10px;color:#70879d;margin-top:7px">
+
+    تعداد معاملات:
+    <strong>${list.length}</strong>
+
+   </div>
+
+   <div style="font-size:10px;margin-top:5px">
+
+    دریافت:
+    <span class="green">
+     ${cur[1]} ${fmt(received)}
+    </span>
+
+    <br>
+
+    پرداخت:
+    <span class="red">
+     ${cur[1]} ${fmt(paid)}
+    </span>
+
+   </div>
+
+  </div>`;
+ });
+
+
+ if(!currencyCards){
+
+  currencyCards=`
+   <div class="empty"
+        style="grid-column:1/-1">
+    هنوز معامله‌ای برای این شرکت ثبت نشده است.
+   </div>`;
+ }
+
+
+ /* گزارش متنی */
+
+ let summary="";
+
+ usedCurrencies.forEach(code=>{
+
+  const list=transactions
+  .filter(t=>t.currency===code);
+
+  const total=list
+  .reduce((s,t)=>s+Number(t.amount),0);
+
+  const cur=getCurrency(code);
+
+  summary+=`
+   <div class="mini">
+    <span>
+     ${cur[1]} ${code}
+    </span>
+
+    <strong>
+     ${list.length} معامله —
+     ${cur[1]} ${fmt(total)}
+    </strong>
+   </div>`;
+ });
+
+
+ $("companyAccountContent").innerHTML=`
+
+ <div class="panel">
+
+  <div class="company-report-head">
+
+   <div class="report-title">
+
+    <div class="report-icon">
+     🏢
+    </div>
+
+    <div>
+     <h2>${esc(c.name)}</h2>
+
+     <small>
+      ${esc(c.phone||"بدون شماره")}
+     </small>
+
+    </div>
+
+   </div>
+
+   <div>
+
+    <button class="btn primary"
+            onclick="newTransactionForCompany(${c.id})">
+     ＋ معامله جدید
+    </button>
+
+    <button class="btn secondary"
+            onclick="printCompany(${c.id})">
+     🖨 چاپ حساب
+    </button>
+
+   </div>
+
+  </div>
+
+ </div>
+
+
+ <div class="notice">
+
+  📌 گزارش زیر فقط مربوط به
+  <strong>${esc(c.name)}</strong>
+  است.
+
+  معاملات شرکت‌های دیگر در این حساب محاسبه نمی‌شوند.
+
+ </div>
+
+
+ <div class="panel">
+
+  <div class="panel-head">
+   <h3>
+    💰 خلاصه معاملات ${esc(c.name)}
+   </h3>
+  </div>
+
+  <div class="currency-grid">
+   ${currencyCards}
+  </div>
+
+ </div>
+
+
+ <div class="panel">
+
+  <div class="panel-head">
+   <h3>
+    📊 تعداد و مجموع معاملات بر اساس ارز
+   </h3>
+  </div>
+
+  ${summary||`
+   <div class="empty">
+    معامله‌ای وجود ندارد.
+   </div>
+  `}
+
+ </div>
+
+
+ <div class="panel">
+
+  <div class="panel-head">
+
+   <h3>
+    📋 تمام معاملات ${esc(c.name)}
+   </h3>
+
+   <span style="color:#8da5ba;font-size:11px">
+    ${transactions.length} معامله
+   </span>
+
+  </div>
+
+  <div class="table-wrap">
+
+   <table>
+
+    <thead>
+
+     <tr>
+      <th>تاریخ</th>
+      <th>ارز</th>
+      <th>نوع</th>
+      <th>نوع خدمات</th>
+      <th>شرح</th>
+      <th>مبلغ</th>
+      <th>عملیات</th>
+     </tr>
+
+    </thead>
+
+    <tbody>
+
+     ${
+      transactions.length
+      ?transactions.map(t=>transactionRow(t)).join("")
+      :`
+       <tr>
+        <td colspan="7"
+            class="empty">
+         برای این شرکت معامله‌ای ثبت نشده است.
+        </td>
+       </tr>
+      `
+     }
+
+    </tbody>
+
+   </table>
+
+  </div>
+
+ </div>`;
+}
+
+
+/* ==============================
+   سطر معامله
+============================== */
+
+function transactionRow(t){
+
+ const cur=getCurrency(t.currency);
+
+ let badge="badge-in";
+ let type="دریافت";
+
+ if(t.type==="expense"){
+  badge="badge-out";
+  type="پرداخت";
+ }
+
+ if(t.service==="loan"){
+  badge="badge-loan";
+ }
+
+ if(t.service==="loan_return"){
+  badge="badge-in";
+ }
+
+ const service={
+  loan:"قرضه",
+  loan_return:"پس‌گرفتن قرضه"
+ }[t.service]||t.service;
+
+ return `
+ <tr>
+
+  <td>${esc(t.date)}</td>
+
+  <td>
+   ${cur[1]} ${t.currency}
+  </td>
+
+  <td>
+   <span class="badge ${badge}">
+    ${type}
+   </span>
+  </td>
+
+  <td>
+   ${esc(service)}
+  </td>
+
+  <td>
+   ${esc(t.description||"-")}
+  </td>
+
+  <td class="${t.type==="income"?"green":"red"}">
+
+   ${cur[1]} ${fmt(t.amount)}
+
+  </td>
+
+  <td>
+
+   <button class="btn danger"
+           style="padding:5px 9px"
+           onclick="deleteTransaction(${t.id})">
+    حذف
+   </button>
+
+  </td>
+
+ </tr>`;
+}
+
+
+/* ==============================
+   شرکت‌ها
+============================== */
+
+function renderCompanies(){
+
+ const box=$("companyList");
+
+ if(!db.companies.length){
+
+  box.innerHTML=`
+   <div class="panel empty"
+        style="grid-column:1/-1">
+    هنوز شرکتی ثبت نشده است.
+   </div>`;
+
+  return;
+ }
+
+
+ box.innerHTML=db.companies.map(c=>{
+
+  const tx=db.transactions
+  .filter(t=>t.companyId===c.id);
+
+  const used=[
+   ...new Set(tx.map(t=>t.currency))
+  ];
+
+  let mini="";
+
+  used.slice(0,6).forEach(code=>{
+
+   const list=tx.filter(
+    t=>t.currency===code
+   );
+
+   const net=list.reduce(
+    (s,t)=>
+     s+(t.type==="income"
+       ?Number(t.amount)
+       :-Number(t.amount)),
+    0
+   );
+
+   const cur=getCurrency(code);
+
+   mini+=`
+    <div class="mini">
+
+     <span>
+      ${cur[1]} ${code}
+     </span>
+
+     <strong class="${net>=0?"green":"red"}">
+      ${fmt(net)}
+     </strong>
+
+    </div>`;
+  });
+
+
+  return `
+
+  <div class="company">
+
+   <div class="company-head">
+
+    <div class="company-icon">
+     🏢
+    </div>
+
+    <div>
+     <h3>${esc(c.name)}</h3>
+     <small>
+      ${esc(c.phone||"بدون شماره")}
+     </small>
+    </div>
+
+   </div>
+
+   <div class="company-total">
+
+    ${
+     mini||
+     `<div class="mini">
+       <span>معامله</span>
+       <strong>0</strong>
+      </div>`
+    }
+
+   </div>
+
+   <div style="display:flex;gap:7px;flex-wrap:wrap">
+
+    <button class="btn primary"
+            onclick="openCompanyAccount(${c.id})">
+     📂 حساب کامل
+    </button>
+
+    <button class="btn secondary"
+            onclick="newTransactionForCompany(${c.id})">
+     ＋ معامله
+    </button>
+
+    <button class="btn danger"
+            onclick="deleteCompany(${c.id})">
+     حذف
+    </button>
+
+   </div>
+
+  </div>`;
+ }).join("");
+}
+
+
+function deleteCompany(id){
+
+ const c=getCompany(id);
+
+ if(!confirm(
+  `حساب ${c.name} و تمام معاملات آن حذف شود؟`
+ ))return;
+
+ db.companies=
+  db.companies.filter(x=>x.id!==id);
+
+ db.transactions=
+  db.transactions.filter(
+   x=>x.companyId!==id
+  );
+
+ save();
+
+ refresh();
+}
+
+
+/* ==============================
+   معامله
+============================== */
+
+function newTransaction(){
+
+ if(!db.companies.length){
+  alert("ابتدا شرکت ثبت کنید.");
+  return;
+ }
+
+ $("transactionCompany").innerHTML=
+  companyOptions();
+
+ $("transactionCurrency").innerHTML=
+  currencyOptions();
+
+ $("transactionDate").value=today();
+
+ $("transactionAmount").value="";
+ $("transactionDescription").value="";
+
+ $("transactionModal").classList.add("show");
+}
+
+
+function newTransactionForCompany(id){
+
+ if(!getCompany(id))return;
+
+ $("transactionCompany").innerHTML=
+  companyOptions();
+
+ $("transactionCompany").value=id;
+
+ $("transactionCurrency").innerHTML=
+  currencyOptions();
+
+ $("transactionDate").value=today();
+
+ $("transactionAmount").value="";
+ $("transactionDescription").value="";
+
+ $("transactionModal").classList.add("show");
+}
+
+
+function saveTransaction(){
+
+ const companyId=Number(
+  $("transactionCompany").value
+ );
+
+ const amount=Number(
+  $("transactionAmount").value
+ );
+
+ if(!companyId){
+  alert("شرکت را انتخاب کنید.");
+  return;
+ }
+
+ if(amount<=0){
+  alert("مبلغ صحیح وارد کنید.");
+  return;
+ }
+
+ db.transactions.push({
+
+  id:Date.now(),
+
+  companyId,
+
+  date:$("transactionDate").value,
+
+  type:$("transactionType").value,
+
+  currency:$("transactionCurrency").value,
+
+  amount,
+
+  service:$("transactionService").value,
+
+  description:$("transactionDescription").value.trim()
+
+ });
+
+ save();
+
+ closeModal("transactionModal");
+
+ refresh();
+}
+
+
+/* ==============================
+   تمام معاملات
+============================== */
+
+function renderAllTransactions(){
+
+ $("filterCompany").innerHTML=
+  `<option value="">همه شرکت‌ها</option>`+
+  companyOptions();
+
+ $("filterCurrency").innerHTML=
+  `<option value="">همه ارزها</option>`+
+  currencyOptions();
+
+
+ const company=$("filterCompany").value;
+ const cur=$("filterCurrency").value;
+ const search=
+  $("searchBox").value.toLowerCase();
+
+
+ let list=db.transactions.filter(t=>{
+
+  if(company &&
+     t.companyId!==Number(company))
+   return false;
+
+  if(cur && t.currency!==cur)
+   return false;
+
+  const text=(
+   companyName(t.companyId)+" "+
+   t.description+" "+
+   t.service
+  ).toLowerCase();
+
+  return text.includes(search);
+ });
+
+
+ list.sort(
+  (a,b)=>b.date.localeCompare(a.date)
+ );
+
+
+ $("allTransactionTable").innerHTML=
+ list.length
+ ?list.map(t=>`
+
+  <tr>
+
+   <td>${esc(t.date)}</td>
+
+   <td>${esc(companyName(t.companyId))}</td>
+
+   <td>
+    ${getCurrency(t.currency)[1]}
+    ${t.currency}
+   </td>
+
+   <td>
+    ${t.type==="income"?"دریافت":"پرداخت"}
+   </td>
+
+   <td>
+    ${t.service==="loan"
+      ?"قرضه"
+      :t.service==="loan_return"
+      ?"پس‌گرفتن قرضه"
+      :esc(t.service)}
+   </td>
+
+   <td>${esc(t.description||"-")}</td>
+
+   <td class="${t.type==="income"?"green":"red"}">
+    ${getCurrency(t.currency)[1]}
+    ${fmt(t.amount)}
+   </td>
+
+   <td>
+    <button class="btn danger"
+            style="padding:5px 9px"
+            onclick="deleteTransaction(${t.id})">
+     حذف
+    </button>
+   </td>
+
+  </tr>
+
+ `).join("")
+ :`
+  <tr>
+   <td colspan="8" class="empty">
+    معامله‌ای پیدا نشد.
+   </td>
+  </tr>`;
+}
+
+
+function deleteTransaction(id){
+
+ if(!confirm("این معامله حذف شود؟"))
+  return;
+
+ db.transactions=
+  db.transactions.filter(t=>t.id!==id);
+
+ save();
+
+ refresh();
+}
+
+
+/* ==============================
+   مصارف
+============================== */
+
+function newExpense(){
+
+ // Load available currencies
+ $("expenseCurrency").innerHTML=
+  currencyOptions();
+
+ // Reset form fields
+ $("expenseDate").value=today();
+ $("expenseCategory").selectedIndex=0;
+ $("expenseCurrency").value="AFN";
+ $("expenseAmount").value="";
+ $("expenseDescription").value="";
+
+ $("expenseModal").dataset.editId="";
+$("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
+
+ // Open the modal
+ $("expenseModal").classList.add("show");
+}
+
+
+
+function saveExpense(){
+
+ // Get form values
+ const date=$("expenseDate").value;
+ const category=$("expenseCategory").value;
+ const currency=$("expenseCurrency").value;
+ const amount=Number($("expenseAmount").value);
+ const description=$("expenseDescription").value.trim();
+
+
+ // Validate date
+ if(!date){
+  alert("تاریخ را انتخاب کنید.");
+  return;
+ }
+
+
+ // Validate amount
+ if(!Number.isFinite(amount)||amount<=0){
+  alert("مبلغ صحیح وارد کنید.");
+  $("expenseAmount").focus();
+  return;
+ }
+
+
+ // Create expense record
+ const expense={
+
+  id:Date.now(),
+
+  date,
+
+  category,
+
+  currency,
+
+  amount,
+
+  description
+
+ };
+
+
+ // Save expense
+const editId=$("expenseModal").dataset.editId;
+
+if(editId){
+
+ const index=db.expenses.findIndex(
+  e=>e.id===Number(editId)
+ );
+
+ if(index!==-1){
+  db.expenses[index]={
+   ...db.expenses[index],
+   ...expense,
+   id:Number(editId)
+  };
+ }
+
+}else{
+
+ db.expenses.push(expense);
+
+}
+
+ save();
+
+// Close modal
+closeModal("expenseModal");
+
+// Reset editing state
+$("expenseModal").dataset.editId="";
+$("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
+
+// Refresh application
+refresh();
+
+// Show confirmation
+alert("مصرف با موفقیت ثبت شد.");
+
+}
+
+
+function renderExpenses(){
+
+    // Get filter elements
+    const dateFilter = $("filterExpenseDate").value;
+    const categoryFilter = $("filterExpenseCategory").value;
+    const currencyFilter = $("filterExpenseCurrency").value;
+
+
+    // Get active expenses
+    const activeExpenses = db.expenses.filter(
+        e => !e.cancelled
+    );
+
+
+    // Populate available dates
+    const dateSelect = $("filterExpenseDate");
+
+    const dates = [
+        ...new Set(activeExpenses.map(e => e.date))
+    ].sort((a, b) => b.localeCompare(a));
+
+    dateSelect.innerHTML = `
+        <option value="">تمام تاریخ‌ها</option>
+
+        ${dates.map(date => `
+            <option value="${esc(date)}">
+                ${esc(date)}
+            </option>
+        `).join("")}
+    `;
+
+    dateSelect.value = dateFilter;
+
+
+    // Populate available currencies
+    const currencySelect = $("filterExpenseCurrency");
+
+    const currencies = [
+        ...new Set(activeExpenses.map(e => e.currency))
+    ];
+
+    currencySelect.innerHTML = `
+        <option value="">تمام ارزها</option>
+
+        ${currencies.map(code => {
+
+            const c = getCurrency(code);
+
+            return `
+                <option value="${esc(code)}">
+                    ${c[1]} ${esc(code)}
+                </option>
+            `;
+
+        }).join("")}
+    `;
+
+    currencySelect.value = currencyFilter;
+
+
+    // Apply selected filters
+    const list = activeExpenses
+
+        .filter(e =>
+            !dateFilter || e.date === dateFilter
+        )
+
+        .filter(e =>
+            !categoryFilter || e.category === categoryFilter
+        )
+
+        .filter(e =>
+            !currencyFilter || e.currency === currencyFilter
+        )
+
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+
+    // Display expenses
+    $("expenseTable").innerHTML = list.length
+
+        ? list.map(e => {
+
+            const c = getCurrency(e.currency);
+
+            return `
+                <tr>
+
+                    <td>${esc(e.date)}</td>
+
+                    <td>${esc(e.category)}</td>
+
+                    <td>${c[1]} ${e.currency}</td>
+
+                    <td>${esc(e.description || "-")}</td>
+
+                    <td class="red">
+                        ${c[1]} ${fmt(e.amount)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn secondary"
+                            style="padding:5px 9px"
+                            onclick="editExpense(${e.id})">
+                            ویرایش
+                        </button>
+
+                        <button
+                            class="btn danger"
+                            style="padding:5px 9px"
+                            onclick="deleteExpense(${e.id})">
+                            لغو
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("")
+
+        : `
+            <tr>
+                <td colspan="6" class="empty">
+                    مصرفی مطابق فلترهای انتخاب‌شده پیدا نشد.
+                </td>
+            </tr>
+        `;
+        renderExpenseSummaries();
+}
+
+function renderExpenseSummaries() {
+
+
+// Get all active expenses (exclude cancelled expenses)
+const activeExpenses = db.expenses.filter(
+    e => !e.cancelled
+);
+
+// Get today's date and current month
+const currentDate = today();
+const currentMonth = currentDate.slice(0, 7);
+
+const selectedMonth = $("expenseMonthPicker").value;
+
+const summaryMonth = selectedMonth || currentMonth;
+
+// Separate today's expenses
+const todayExpenses = activeExpenses.filter(
+    e => e.date === currentDate
+);
+
+// Separate this month's expenses
+const monthExpenses = activeExpenses.filter(
+    e => e.date.startsWith(summaryMonth)
+);
+
+// Calculate totals separately for each currency
+function calculateTotals(expenses) {
+
+    const totals = {};
+
+    expenses.forEach(e => {
+
+        if (!totals[e.currency]) {
+            totals[e.currency] = 0;
+        }
+
+        totals[e.currency] += Number(e.amount);
+    });
+
+    return totals;
+}
+
+// Convert currency totals into HTML
+function formatTotals(totals) {
+
+    const currencies = Object.keys(totals);
+
+    if (currencies.length === 0) {
+        return "0";
+    }
+
+    return currencies.map(code => {
+
+        const currency = getCurrency(code);
+
+        return `
+            <div style="font-size:15px; margin-top:5px;">
+                ${currency[1]} ${esc(code)}:
+                ${fmt(totals[code])}
+            </div>
+        `;
+
+    }).join("");
+}
+
+// Calculate daily and monthly totals
+const dailyTotals = calculateTotals(todayExpenses);
+const monthlyTotals = calculateTotals(monthExpenses);
+
+// Display the summaries
+$("expenseSummary").innerHTML = `
+
+    <div class="stat">
+        <div class="stat-icon">📅</div>
+        <div class="stat-label">مصارف امروز</div>
+        <div class="stat-value">
+            ${formatTotals(dailyTotals)}
+        </div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-icon">🧾</div>
+        <div class="stat-label">تعداد مصارف امروز</div>
+        <div class="stat-value">
+            ${todayExpenses.length}
+        </div>
+    </div>
+
+    <div class="stat"
+     onclick="toggleExpenseMonthPicker()"
+     style="cursor:pointer;">
+
+    <div class="stat-icon">📆</div>
+
+    <div class="stat-label">
+        مصارف این ماه
+    </div>
+
+    <div class="stat-value">
+        ${formatTotals(monthlyTotals)}
+    </div>
+
+    <small style="color:var(--muted);">
+        برای انتخاب ماه کلیک کنید
+    </small>
+
+</div>
+
+    <div class="stat">
+        <div class="stat-icon">📋</div>
+        <div class="stat-label">تعداد مصارف این ماه</div>
+        <div class="stat-value">
+            ${monthExpenses.length}
+        </div>
+    </div>
+
+`;
+
+
+}
+
+function toggleExpenseMonthPicker(){
+
+    const selector = $("expenseMonthSelector");
+    const picker = $("expenseMonthPicker");
+
+    if(selector.style.display === "none"){
+
+        selector.style.display = "block";
+
+        // Set current month as the initial selection
+        if(!picker.value){
+            picker.value = today().slice(0, 7);
+        }
+
+    }else{
+
+        selector.style.display = "none";
+
+    }
+
+}
+
+
+function toggleExpenseFilters(){
+
+    const panel = $("expenseFilterPanel");
+    const button = $("expenseFilterButton");
+
+    if(panel.style.display === "none"){
+
+        panel.style.display = "block";
+
+        button.innerHTML = "✖ پنهان کردن فلترها";
+
+    }else{
+
+        panel.style.display = "none";
+
+        button.innerHTML = "🔍 نمایش فلترها";
+
+    }
+}
+
+function clearExpenseFilters(){
+
+    $("filterExpenseDate").value = "";
+
+    $("filterExpenseCategory").value = "";
+
+    $("filterExpenseCurrency").value = "";
+
+    renderExpenses();
+}
+
+
+
+function deleteExpense(id){
+
+ const expense=db.expenses.find(e=>e.id===id);
+
+ if(!expense)return;
+
+ if(!confirm("آیا مطمئن هستید که می‌خواهید این مصرف را لغو کنید؟"))
+  return;
+
+ expense.cancelled=true;
+ expense.cancelledAt=new Date().toISOString();
+
+ save();
+
+ refresh();
+
+ alert("مصرف با موفقیت لغو شد.");
+}
+
+
+// Editing the daily expence 
+
+
+function editExpense(id){
+
+ const expense=db.expenses.find(e=>e.id===id);
+
+ if(!expense)return;
+
+ // Load currencies
+ $("expenseCurrency").innerHTML=currencyOptions();
+
+ // Fill the form with existing information
+ $("expenseDate").value=expense.date;
+ $("expenseCategory").value=expense.category;
+ $("expenseCurrency").value=expense.currency;
+ $("expenseAmount").value=expense.amount;
+ $("expenseDescription").value=expense.description;
+
+ // Store the ID of the expense being edited
+ $("expenseModal").dataset.editId=id;
+
+ // Change modal title
+ $("expenseModal").querySelector("h2").textContent="ویرایش مصرف";
+
+ // Open modal
+ $("expenseModal").classList.add("show");
+}
+
+
+/* ==============================
+   داشبورد
+============================== */
+
+function renderDashboard(){
+
+    // Total companies
+    $("totalCompanies").textContent =
+        db.companies.length;
+
+    // Total transactions
+    $("totalTransactions").textContent =
+        db.transactions.length;
+
+    // Total loans and loan returns
+    $("totalLoans").textContent =
+        db.transactions.filter(
+            t => t.service === "loan" ||
+                 t.service === "loan_return"
+        ).length;
+
+    // Total active expenses (excluding cancelled expenses)
+    $("totalExpenses").textContent =
+        db.expenses.filter(e => !e.cancelled).length;
+
+
+    // Display companies on the dashboard
+    const box = $("dashboardCompanies");
+
+    if(!db.companies.length){
+
+        box.innerHTML = `
+            <div class="empty"
+                 style="grid-column:1/-1">
+                هنوز شرکتی ثبت نشده است.
+            </div>`;
+
+    }else{
+
+        box.innerHTML = db.companies.map(c => {
+
+            const tx = db.transactions
+                .filter(t => t.companyId === c.id);
+
+            const used = [
+                ...new Set(tx.map(t => t.currency))
+            ];
+
+            let lines = "";
+
+            used.slice(0,4).forEach(code => {
+
+                const list = tx.filter(
+                    t => t.currency === code
+                );
+
+                const net = list.reduce(
+                    (s,t) =>
+                        s + (t.type === "income"
+                            ? Number(t.amount)
+                            : -Number(t.amount)),
+                    0
+                );
+
+                const cur = getCurrency(code);
+
+                lines += `
+                    <div class="mini">
+
+                        <span>
+                            ${cur[1]} ${code}
+                        </span>
+
+                        <strong class="${net >= 0 ? "green" : "red"}">
+                            ${fmt(net)}
+                        </strong>
+
+                    </div>`;
+            });
+
+            return `
+                <div class="company">
+
+                    <div class="company-head">
+
+                        <div class="company-icon">🏢</div>
+
+                        <div>
+                            <h3>${esc(c.name)}</h3>
+                            <small>
+                                ${tx.length} معامله
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <div class="company-total">
+                        ${lines || `
+                            <div class="mini">
+                                <span>بدون معامله</span>
+                            </div>
+                        `}
+                    </div>
+
+                    <button class="btn primary"
+                            onclick="openCompanyAccount(${c.id})">
+                        مشاهده حساب جداگانه
+                    </button>
+
+                </div>`;
+        }).join("");
+    }
+
+
+    /* ارزهای عمومی فقط برای خلاصه داشبورد */
+
+    const used = [
+        ...new Set(
+            db.transactions.map(t => t.currency)
+        )
+    ];
+
+    $("globalCurrencies").innerHTML =
+        used.length
+        ? used.map(code => {
+
+            const list = db.transactions
+                .filter(t => t.currency === code);
+
+            const net = list.reduce(
+                (s,t) =>
+                    s + (t.type === "income"
+                        ? Number(t.amount)
+                        : -Number(t.amount)),
+                0
+            );
+
+            const c = getCurrency(code);
+
+            return `
+                <div class="currency-card">
+
+                    <div class="currency-name">
+                        ${c[1]} ${code} — ${c[2]}
+                    </div>
+
+                    <div class="currency-balance">
+                        ${c[1]} ${fmt(net)}
+                    </div>
+
+                    <div style="font-size:10px;color:#70879d">
+                        ${list.length} معامله در تمام شرکت‌ها
+                    </div>
+
+                </div>`;
+        }).join("")
+
+        : `
+            <div class="empty"
+                 style="grid-column:1/-1">
+                هنوز معامله‌ای ثبت نشده است.
+            </div>`;
+}
+
+
+/* ==============================
+   گزارش‌ها
+============================== */
+
+function prepareReports(){
+
+ $("reportCompany").innerHTML=
+  `<option value="">انتخاب شرکت</option>`+
+  companyOptions();
+
+ $("reportCurrency").innerHTML=
+  `<option value="">همه ارزها</option>`+
+  currencyOptions();
+}
+
+
+function showReport(){
+
+ const id=Number(
+  $("reportCompany").value
+ );
+
+ if(!id){
+  $("reportResult").innerHTML="";
+  return;
+ }
+
+ const selectedCurrency=
+  $("reportCurrency").value;
+
+ const c=getCompany(id);
+
+ /*
+   نکته مهم:
+   فقط معاملات همین شرکت.
+ */
+
+ const transactions=db.transactions
+ .filter(t=>
+  t.companyId===id &&
+  (!selectedCurrency ||
+   t.currency===selectedCurrency)
+ )
+ .sort(
+  (a,b)=>b.date.localeCompare(a.date)
+ );
+
+
+ const used=[
+  ...new Set(
+   transactions.map(t=>t.currency)
+  )
+ ];
+
+
+ let cards="";
+
+ used.forEach(code=>{
+
+  const list=transactions
+   .filter(t=>t.currency===code);
+
+  const received=list
+   .filter(t=>t.type==="income")
+   .reduce((s,t)=>s+Number(t.amount),0);
+
+  const paid=list
+   .filter(t=>t.type==="expense")
+   .reduce((s,t)=>s+Number(t.amount),0);
+
+  const balance=received-paid;
+
+  const cur=getCurrency(code);
+
+  cards+=`
+   <div class="stat">
+
+    <div class="stat-icon">
+     ${cur[1]}
+    </div>
+
+    <div class="stat-label">
+     ${cur[2]} (${code})
+    </div>
+
+    <div class="stat-value
+                ${balance>=0?"green":"red"}">
+     ${cur[1]} ${fmt(balance)}
+    </div>
+
+    <small style="color:#8097aa">
+
+     تعداد:
+     ${list.length}
+
+     <br>
+
+     دریافت:
+     ${cur[1]} ${fmt(received)}
+
+     |
+     پرداخت:
+     ${cur[1]} ${fmt(paid)}
+
+    </small>
+
+   </div>`;
+ });
+
+
+ $("reportResult").innerHTML=`
+
+ <div class="panel">
+
+  <div class="company-report-head">
+
+   <div class="report-title">
+
+    <div class="report-icon">🏢</div>
+
+    <div>
+     <h2>${esc(c.name)}</h2>
+
+     <small>
+      گزارش اختصاصی شرکت
+     </small>
+    </div>
+
+   </div>
+
+   <button class="btn secondary"
+           onclick="printReport(${id})">
+    🖨 چاپ
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="stats">
+
+  ${cards||`
+   <div class="panel empty"
+        style="grid-column:1/-1">
+    معامله‌ای برای این شرکت پیدا نشد.
+   </div>
+  `}
+
+ </div>
+
+
+ <div class="panel">
+
+  <h3>📋 جزئیات معاملات ${esc(c.name)}</h3>
+
+  <br>
+
+  <div class="table-wrap">
+
+   <table>
+
+    <thead>
+     <tr>
+      <th>تاریخ</th>
+      <th>ارز</th>
+      <th>نوع</th>
+      <th>خدمات</th>
+      <th>شرح</th>
+      <th>مبلغ</th>
+     </tr>
+    </thead>
+
+    <tbody>
+
+     ${
+      transactions.length
+      ?transactions.map(t=>transactionRow(t)).join("")
+      :`
+       <tr>
+        <td colspan="6"
+            class="empty">
+         معامله‌ای وجود ندارد.
+        </td>
+       </tr>
+      `
+     }
+
+    </tbody>
+
+   </table>
+
+  </div>
+
+ </div>`;
+}
+
+
+/* ==============================
+   چاپ شرکت
+============================== */
+
+function printCompany(id){
+
+ const c=getCompany(id);
+
+ if(!c)return;
+
+ const tx=db.transactions
+ .filter(t=>t.companyId===id)
+ .sort((a,b)=>b.date.localeCompare(a.date));
+
+
+ const win=window.open("","_blank");
+
+ win.document.write(`
+
+ <!DOCTYPE html>
+
+ <html lang="fa" dir="rtl">
+
+ <head>
+
+  <meta charset="UTF-8">
+
+  <title>${esc(c.name)}</title>
+
+  <style>
+
+   body{
+    font-family:Tahoma;
+    padding:30px;
+   }
+
+   h1{text-align:center}
+
+   table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+   }
+
+   th,td{
+    border:1px solid #ddd;
+    padding:9px;
+    text-align:right;
+   }
+
+   th{background:#eee}
+
+   .footer{
+    text-align:center;
+    margin-top:30px;
+    color:#777;
+   }
+
+  </style>
+
+ </head>
+
+ <body>
+
+  <h1>کابل باختر</h1>
+
+  <h2>صورت حساب: ${esc(c.name)}</h2>
+
+  <p>
+   تعداد معاملات: ${tx.length}
+  </p>
+
+  <table>
+
+   <thead>
+
+    <tr>
+     <th>تاریخ</th>
+     <th>ارز</th>
+     <th>نوع</th>
+     <th>خدمات</th>
+     <th>شرح</th>
+     <th>مبلغ</th>
+    </tr>
+
+   </thead>
+
+   <tbody>
+
+    ${tx.map(t=>{
+
+     const cur=getCurrency(t.currency);
+
+     const service=
+      t.service==="loan"
+      ?"قرضه"
+      :t.service==="loan_return"
+      ?"پس‌گرفتن قرضه"
+      :t.service;
+
+     return `
+      <tr>
+
+       <td>${esc(t.date)}</td>
+
+       <td>${cur[0]} ${t.currency}</td>
+
+       <td>
+        ${t.type==="income"
+         ?"دریافت"
+         :"پرداخت"}
+       </td>
+
+       <td>${esc(service)}</td>
+
+       <td>${esc(t.description||"-")}</td>
+
+       <td>
+        ${cur[0]} ${fmt(t.amount)}
+       </td>
+
+      </tr>`;
+    }).join("")}
+
+   </tbody>
+
+  </table>
+
+  <div class="footer">
+   سازنده سیستم: ارباب
+  </div>
+
+ </body>
+
+ </html>
+ `);
+
+ win.document.close();
+
+ setTimeout(()=>win.print(),400);
+}
+
+
+function printReport(id){
+ printCompany(id);
+}
+
+
+/* ==============================
+   Backup
+============================== */
+
+function backup(){
+
+ const blob=new Blob(
+  [JSON.stringify(db,null,2)],
+  {type:"application/json"}
+ );
+
+ const url=URL.createObjectURL(blob);
+
+ const a=document.createElement("a");
+
+ a.href=url;
+ a.download=
+  "Kabul-Bakhtar-Arbab-"+today()+".json";
+
+ a.click();
+
+ URL.revokeObjectURL(url);
+}
+
+
+function restore(event){
+
+ const file=event.target.files[0];
+
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+
+  try{
+
+   const x=JSON.parse(reader.result);
+
+   if(
+    !x.companies||
+    !x.transactions||
+    !x.expenses
+   )throw new Error();
+
+   db=x;
+
+   save();
+
+   alert("پشتیبان با موفقیت بازیابی شد.");
+
+   location.reload();
+
+  }catch{
+
+   alert("فایل پشتیبان معتبر نیست.");
+
+  }
+
+ };
+
+ reader.readAsText(file);
+}
+
+
+/* ==============================
+   Modal
+============================== */
+
+function closeModal(id){
+ $(id).classList.remove("show");
+}
+
+window.addEventListener("click",e=>{
+
+ if(e.target.classList.contains("modal")){
+  e.target.classList.remove("show");
+ }
+
+});
+
+
+/* ==============================
+   Refresh
+============================== */
+
+function refresh(){
+
+ renderDashboard();
+ renderCompanies();
+ renderAllTransactions();
+ renderExpenses();
+ prepareReports();
+
+ $("dateText").textContent=
+ new Intl.DateTimeFormat(
+  "fa-AF",
+  {
+   year:"numeric",
+   month:"long",
+   day:"numeric"
+  }
+ ).format(new Date());
+}
+
+
+/* شروع سیستم */
+
+$("transactionDate").value=today();
+$("expenseDate").value=today();
+
+refresh();
+
+</script>
+
+</body>
+</html>
