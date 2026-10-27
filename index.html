@@ -1,3 +1,5 @@
+<!-- hello -->
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -1278,7 +1280,7 @@ let db=JSON.parse(
  expenses:[]
 };
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "http://10.103.150.1:3000/api";
 
 async function loadExpenses() {
     try {
@@ -1306,8 +1308,9 @@ async function loadExpenses() {
 
     } catch (error) {
         console.error("Expense loading error:", error);
-        alert("Could not connect to the expenses database.");
+        alert("Expense error: " + error.message);
     }
+
 }
 
 /* ==============================
@@ -1324,7 +1327,14 @@ function save(){
 }
 
 function today(){
- return new Date().toISOString().slice(0,10);
+
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
 }
 
 function fmt(n){
@@ -3275,6 +3285,12 @@ $("expenseDate").value=today();
 
 refresh();
 loadExpenses();
+
+
+// Automatically synchronize expenses every 5 seconds
+setInterval(() => {
+    loadExpenses();
+}, 5000);
 
 </script>
 
