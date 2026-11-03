@@ -1423,7 +1423,7 @@ async function loadExpenses() {
 
         db.expenses = data.map(e => ({
             id: e.id,
-            date: e.expense_date,
+            date: String(e.expense_date).slice(0, 10),
             category: e.category,
             currency: e.currency,
             amount: Number(e.amount),
@@ -2333,6 +2333,7 @@ async function saveExpense(){
 
     // Get form values
     const date = $("expenseDate").value;
+    console.log("Selected expense date:", date);
     const category = $("expenseCategory").value;
     const currency = $("expenseCurrency").value;
     const amount = Number($("expenseAmount").value);
@@ -2563,6 +2564,17 @@ const activeExpenses = db.expenses.filter(
 // Get today's date and current month
 const currentDate = today();
 const currentMonth = currentDate.slice(0, 7);
+
+console.log("Today's date:", currentDate);
+
+console.log(
+    "Expense dates:",
+    db.expenses.map(e => ({
+        date: e.date,
+        type: typeof e.date,
+        cancelled: e.cancelled
+    }))
+);
 
 const selectedMonth = $("expenseMonthPicker").value;
 
