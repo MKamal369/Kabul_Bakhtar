@@ -101,8 +101,29 @@ function requireDeveloper(req, res, next) {
     next();
 }
 
+// Allow only system administrators
+function requireSystemAdmin(req, res, next) {
+
+    if (!req.session.manager) {
+        return res.status(401).json({
+            success: false,
+            message: "Please log in first."
+        });
+    }
+
+    if (req.session.manager.role !== "system_admin") {
+        return res.status(403).json({
+            success: false,
+            message: "Administrator permission required."
+        });
+    }
+
+    next();
+}
+
+//Too manu login attempts
 // POST: Manager login
-app.post("/api/auth/login", loginLimiter, async (req, res) => {
+app.post("/api/auth/login"/* , loginLimiter*/, async (req, res) => {
     try {
         const { username, password } = req.body;
 

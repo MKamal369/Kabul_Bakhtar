@@ -577,10 +577,15 @@ tr:hover td{background:#ffffff03}
     margin-top: 15px;
     font-size: 14px;
 }
+
+/* Prevent UI flicker during authentication */
+body.auth-loading {
+    visibility: hidden;
+}
 </style>
 </head>
 
-<body>
+<body class="auth-loading">
 
 <div id="loginScreen" class="login-screen">
 
@@ -679,7 +684,14 @@ tr:hover td{background:#ffffff03}
   داشبورد مالی
  </div>
 
- <div class="date" id="dateText"></div>
+<div class="manager-info">
+    <span id="managerName"></span>
+    <button class="btn secondary" onclick="logoutManager()">
+        خروج
+    </button>
+</div>
+
+<div class="date" id="dateText"></div>
 
 </header>
 
@@ -3395,20 +3407,146 @@ function refresh(){
 }
 
 
-/* شروع سیستم */
+/* ==============================
+   Manager Authentication
+============================== */
 
-$("transactionDate").value=today();
-$("expenseDate").value=today();
+let currentManager = null;
+let expenseSyncInterval = null;
 
-refresh();
-loadExpenses();
+function showLogin() {
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("sidebar").style.display = "none";
+    document.querySelector(".main").style.display = "none";
+
+    currentManager = null;
+
+    if (expenseSyncInterval) {
+        clearInterval(expenseSyncInterval);
+        expenseSyncInterval = null;
+    }
 
 
-// Automatically synchronize expenses every 5 seconds
-setInterval(() => {
+    document.body.classList.remove("auth-loading");
+}
+
+function showDashboard(manager) {
+    currentManager = manager;
+
+document.getElementById("managerName").textContent =
+    manager.display_name + " (" + manager.role + ")";
+
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("sidebar").style.display = "";
+    document.querySelector(".main").style.display = "";
+
+    $("transactionDate").value = today();
+    $("expenseDate").value = today();
+
+    refresh();
     loadExpenses();
-}, 5000);
 
+    if (expenseSyncInterval) {
+        clearInterval(expenseSyncInterval);
+    }
+
+    expenseSyncInterval = setInterval(() => {
+        if (currentManager) {
+            loadExpenses();
+        }
+    }, 5000);
+
+    document.body.classList.remove("auth-loading");
+}
+
+async function checkAuth() {
+    try {
+        const response = await fetch(`${API_URL}/auth/me`, {
+            credentials: "same-origin"
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success && data.manager) {
+            showDashboard(data.manager);
+        } else {
+            showLogin();
+        }
+
+    } catch (error) {
+        console.error("Authentication check failed:", error);
+        showLogin();
+    }
+}
+
+
+/* Login Form */
+
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const button = document.getElementById("loginButton");
+    const error = document.getElementById("loginError");
+
+    button.disabled = true;
+    button.textContent = "در حال ورود...";
+    error.textContent = "";
+
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "نام کاربری یا رمز عبور اشتباه است.");
+        }
+
+        document.getElementById("loginPassword").value = "";
+
+        await checkAuth();
+
+    } catch (err) {
+        error.textContent = err.message;
+    } finally {
+        button.disabled = false;
+        button.textContent = "ورود";
+    }
+});
+
+async function logoutManager() {
+    try {
+        const response = await fetch(`${API_URL}/auth/logout`, {
+            method: "POST",
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            throw new Error("Logout failed");
+        }
+
+        document.getElementById("loginForm").reset();
+        document.getElementById("loginError").textContent = "";
+
+        showLogin();
+        document.getElementById("managerName").textContent = "";
+    } catch (error) {
+        alert("خروج از سیستم موفق نشد. لطفاً دوباره تلاش کنید.");
+        console.error(error);
+    }
+}
+
+/* Start System */
+
+checkAuth();
 </script>
 
 </body>
