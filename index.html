@@ -665,7 +665,7 @@ body.auth-loading {
    📑 گزارش‌ها
   </button>
 
-  <button onclick="go('backup',this)">
+  <button id="backupNav" onclick="go('backup',this)">
    💾 پشتیبان
   </button>
 
@@ -1518,6 +1518,11 @@ function companyOptions(){
 ============================== */
 
 function go(id,button){
+
+ if(id === "backup" && currentManager?.role !== "system_admin"){
+  alert("شما اجازه دسترسی به بخش پشتیبان را ندارید.");
+  return;
+ }
 
  document.querySelectorAll(".page")
  .forEach(x=>x.classList.remove("active"));
@@ -3413,6 +3418,7 @@ function refresh(){
 
 let currentManager = null;
 let expenseSyncInterval = null;
+let inactivityTimer = null;
 
 function showLogin() {
     document.getElementById("loginScreen").style.display = "flex";
@@ -3421,17 +3427,47 @@ function showLogin() {
 
     currentManager = null;
 
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = null;
+    }
+
+    if (serverCheckInterval) {
+        clearInterval(serverCheckInterval);
+        serverCheckInterval = null;
+    }
+
     if (expenseSyncInterval) {
         clearInterval(expenseSyncInterval);
         expenseSyncInterval = null;
     }
 
-
     document.body.classList.remove("auth-loading");
 }
 
+function resetInactivityTimer() {
+    if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+    }
+
+    if (!currentManager) return;
+
+    inactivityTimer = setTimeout(() => {
+        alert("به دلیل عدم فعالیت، شما از سیستم خارج شدید.");
+        logoutManager();
+    }, 50 * 60 * 1000);
+}
+
+// Detect user activity and reset the inactivity timer
+["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer);
+});
+
 function showDashboard(manager) {
     currentManager = manager;
+
+        document.getElementById("backupNav").style.display =
+        manager.role === "system_admin" ? "" : "none";
 
 document.getElementById("managerName").textContent =
     manager.display_name + " (" + manager.role + ")";
@@ -3457,6 +3493,8 @@ document.getElementById("managerName").textContent =
     }, 5000);
 
     document.body.classList.remove("auth-loading");
+    resetInactivityTimer();
+    startServerMonitoring();
 }
 
 async function checkAuth() {
@@ -3477,8 +3515,35 @@ async function checkAuth() {
         console.error("Authentication check failed:", error);
         showLogin();
     }
+
+
 }
 
+let serverCheckInterval = null;
+
+function startServerMonitoring() {
+    if (serverCheckInterval) {
+        clearInterval(serverCheckInterval);
+    }
+
+    serverCheckInterval = setInterval(async () => {
+        if (!currentManager) return;
+
+        try {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                credentials: "same-origin"
+            });
+
+            if (response.status === 401) {
+                alert("جلسه شما منقضی شده است. لطفاً دوباره وارد سیستم شوید.");
+                showLogin();
+            }
+
+        } catch (error) {
+            console.error("Server connection lost:", error);
+        }
+    }, 5000);
+}
 
 /* Login Form */
 

@@ -38,12 +38,13 @@ app.use(session({
 
     resave: false,
     saveUninitialized: false,
+    rolling: true,
 
     cookie: {
         httpOnly: true,
         secure: false, // Change to true when using HTTPS
         sameSite: "lax",
-        maxAge: 1000 * 60 * 60 * 8
+        maxAge: 1000 * 60 * 50
     }
 }));
 
@@ -547,10 +548,23 @@ app.delete("/api/expenses/:id", requireAuth, async (req, res) => {
 });
 
 
-// ==========================================
 // START SERVER
 // ==========================================
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+async function startServer() {
+    try {
+        // Invalidate all previous sessions after every server restart
+        await db.query("DELETE FROM user_sessions");
+
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`Server is running on port ${PORT}`);
+            console.log("Previous sessions have been cleared.");
+        });
+
+    } catch (error) {
+        console.error("Failed to clear previous sessions:", error);
+        process.exit(1);
+    }
+}
+
+startServer();
