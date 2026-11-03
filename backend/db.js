@@ -1,5 +1,14 @@
+const path = require("path");
 const { Pool } = require("pg");
-require("dotenv").config();
+
+require("dotenv").config({
+    path: path.join(__dirname, ".env")
+});
+
+if (typeof process.env.DB_PASSWORD !== "string" ||
+    process.env.DB_PASSWORD.length === 0) {
+    throw new Error("DB_PASSWORD is missing or invalid in backend/.env");
+}
 
 const connection = new Pool({
     host: process.env.DB_HOST,
@@ -9,13 +18,8 @@ const connection = new Pool({
     database: process.env.DB_NAME
 });
 
-connection.connect()
-    .then(client => {
-        console.log("Successfully connected to PostgreSQL!");
-        client.release();
-    })
-    .catch(err => {
-        console.error("PostgreSQL connection failed:", err.message);
-    });
+connection.on("error", err => {
+    console.error("Unexpected PostgreSQL pool error:", err.message);
+});
 
 module.exports = connection;

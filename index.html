@@ -506,10 +506,127 @@ tr:hover td{background:#ffffff03}
 
  .hero h1{font-size:23px}
 }
+
+/* LOGIN SCREEN */
+.login-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg);
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 15px 45px #0005;
+}
+
+.login-logo {
+    font-size: 45px;
+    margin-bottom: 12px;
+}
+
+.login-box h1 {
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.login-box > p {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+.login-box .field {
+    text-align: right;
+    margin-bottom: 18px;
+}
+
+.login-box label {
+    display: block;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.login-error {
+    color: var(--red);
+    margin-top: 15px;
+    font-size: 14px;
+}
 </style>
 </head>
 
 <body>
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-box">
+
+        <div class="login-logo">✈️</div>
+
+        <h1>کابل باختر</h1>
+        <p>ورود به سیستم مدیریت مالی</p>
+
+        <form id="loginForm">
+
+            <div class="field">
+                <label for="loginUsername">نام کاربری</label>
+                <input
+                    type="text"
+                    id="loginUsername"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label for="loginPassword">رمز عبور</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="btn primary login-button"
+                id="loginButton">
+                ورود
+            </button>
+
+            <p id="loginError" class="login-error"></p>
+
+        </form>
+
+    </div>
+
+</div>
 
 <aside class="sidebar" id="sidebar">
 
@@ -1280,7 +1397,7 @@ let db=JSON.parse(
  expenses:[]
 };
 
-const API_URL = "http://192.168.1.101:3000/api";
+const API_URL = "/api";
 
 async function loadExpenses() {
     try {
