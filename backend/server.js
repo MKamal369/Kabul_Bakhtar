@@ -397,10 +397,19 @@ app.get("/", (req, res) => {
 // GET: Retrieve active expenses
 app.get("/api/expenses", requireAuth, async (req, res) => {
     const sql = `
-        SELECT * FROM expenses
-        WHERE cancelled = 0
-        ORDER BY expense_date DESC
-    `;
+    SELECT
+        id,
+        expense_date::text AS expense_date,
+        category,
+        currency,
+        amount,
+        description,
+        cancelled,
+        cancelled_at
+    FROM expenses
+    WHERE cancelled = 0
+    ORDER BY expense_date DESC
+`;
 
     try {
         const result = await db.query(sql);
