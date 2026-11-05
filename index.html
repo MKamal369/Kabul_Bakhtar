@@ -2422,6 +2422,8 @@ async function saveExpense(){
 
 function renderExpenses(){
 
+
+
     // Get filter elements
     const dateFilter = $("filterExpenseDate").value;
     const categoryFilter = $("filterExpenseCategory").value;
@@ -2479,7 +2481,9 @@ function renderExpenses(){
 
     currencySelect.value = currencyFilter;
 
+    
 
+    
     // Apply selected filters
     const list = activeExpenses
 
@@ -2534,6 +2538,15 @@ function renderExpenses(){
                             style="padding:5px 9px"
                             onclick="deleteExpense(${e.id})">
                             لغو
+                        </button>
+
+                        
+
+                        <button
+                            class="btn secondary"
+                            style="padding:5px 9px"
+                            onclick="showExpenseHistory(${e.id})">
+                            تاریخچه
                         </button>
 
                     </td>
@@ -2804,6 +2817,130 @@ function editExpense(id){
 
  // Open modal
  $("expenseModal").classList.add("show");
+}
+
+async function showExpenseHistory(id) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/expenses/${id}/history`
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load expense history");
+        }
+
+        const history = await response.json();
+
+        if (history.length === 0) {
+            alert("برای این مصرف هنوز تاریخچه‌ای ثبت نشده است.");
+            return;
+        }
+
+        const details = history.map((item, index) => {
+
+            const oldData = item.old_values;
+            const newData = item.new_values;
+
+            const date = new Date(item.edited_at).toLocaleString();
+
+            return `
+                <div style="
+                    border:1px solid #ddd;
+                    padding:12px;
+                    margin:10px 0;
+                    border-radius:8px;
+                ">
+
+                    <h3>تغییر شماره ${index + 1}</h3>
+
+                    <p><strong>مدیر:</strong>
+                        ${esc(item.manager_name || item.manager_username || "-")}
+                    </p>
+
+                    <p><strong>نقش:</strong>
+                        ${esc(item.manager_role || "-")}
+                    </p>
+
+                    <p><strong>زمان:</strong> ${esc(date)}</p>
+
+                    <hr>
+
+                    <p><strong>تاریخ:</strong>
+                        ${esc(String(oldData.expense_date))}
+                        ←
+                        ${esc(String(newData.expense_date))}
+                    </p>
+
+                    <p><strong>دسته‌بندی:</strong>
+                        ${esc(String(oldData.category))}
+                        ←
+                        ${esc(String(newData.category))}
+                    </p>
+
+                    <p><strong>ارز:</strong>
+                        ${esc(String(oldData.currency))}
+                        ←
+                        ${esc(String(newData.currency))}
+                    </p>
+
+                    <p><strong>مبلغ:</strong>
+                        ${esc(String(oldData.amount))}
+                        ←
+                        ${esc(String(newData.amount))}
+                    </p>
+
+                    <p><strong>توضیحات:</strong>
+                        ${esc(String(oldData.description || "-"))}
+                        ←
+                        ${esc(String(newData.description || "-"))}
+                    </p>
+
+                </div>
+            `;
+
+        }).join("");
+
+        const win = window.open("", "_blank", "width=700,height=700");
+
+        if (!win) {
+            alert("Please allow pop-ups to view expense history.");
+            return;
+        }
+
+        win.document.write(`
+            <!DOCTYPE html>
+            <html lang="fa" dir="rtl">
+            <head>
+                <meta charset="UTF-8">
+                <title>تاریخچه مصرف</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        background: #f5f5f5;
+                    }
+                    h2 {
+                        text-align: center;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>تاریخچه تغییرات مصرف</h2>
+                ${details}
+            </body>
+            </html>
+        `);
+
+        win.document.close();
+
+    } catch (error) {
+
+        console.error(error);
+        alert("خطا در دریافت تاریخچه مصرف.");
+
+    }
 }
 
 

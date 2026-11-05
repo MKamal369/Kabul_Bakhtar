@@ -425,6 +425,36 @@ app.get("/api/expenses", requireAuth, async (req, res) => {
 });
 
 
+// GET: Retrieve edit history for an expense
+app.get("/api/expenses/:id/history", requireAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await db.query(`
+            SELECT
+                manager_name,
+                manager_username,
+                manager_role,
+                old_values,
+                new_values,
+                edited_at
+            FROM expense_edit_history
+            WHERE expense_id = $1
+            ORDER BY edited_at DESC
+        `, [id]);
+
+        res.json(result.rows);
+
+    } catch (err) {
+        console.error("Expense history error:", err);
+
+        res.status(500).json({
+            message: "Failed to retrieve expense history"
+        });
+    }
+});
+
+
 // POST: Add a new expense
 app.post("/api/expenses", requireAuth, async (req, res) => {
 
@@ -467,7 +497,7 @@ app.post("/api/expenses", requireAuth, async (req, res) => {
 });
 
 
-// PUT: Update an existing expense
+// PUT: Update expense and record edit history
 app.put("/api/expenses/:id", requireAuth, async (req, res) => {
 
     const { id } = req.params;
@@ -480,19 +510,57 @@ app.put("/api/expenses/:id", requireAuth, async (req, res) => {
         description
     } = req.body;
 
-    const sql = `
-        UPDATE expenses
-        SET
-            expense_date = $1,
-            category = $2,
-            currency = $3,
-            amount = $4,
-            description = $5
-        WHERE id = $6 AND cancelled = 0
-    `;
+    const manager = req.session.manager;
+
+    let client;
 
     try {
-        const result = await db.query(sql, [
+        client = await db.connect();
+
+        await client.query("BEGIN");
+
+        // Get existing expense and lock it during the update
+        const oldResult = await client.query(`
+            SELECT
+                expense_date::text AS expense_date,
+                category,
+                currency,
+                amount,
+                description
+            FROM expenses
+            WHERE id = $1 AND cancelled = 0
+            FOR UPDATE
+        `, [id]);
+
+        if (oldResult.rowCount === 0) {
+            await client.query("ROLLBACK");
+
+            return res.status(404).json({
+                message: "Expense not found or already cancelled"
+            });
+        }
+
+        const oldValues = oldResult.rows[0];
+
+        const newValues = {
+            expense_date,
+            category,
+            currency,
+            amount,
+            description
+        };
+
+        // Update expense
+        await client.query(`
+            UPDATE expenses
+            SET
+                expense_date = $1,
+                category = $2,
+                currency = $3,
+                amount = $4,
+                description = $5
+            WHERE id = $6 AND cancelled = 0
+        `, [
             expense_date,
             category,
             currency,
@@ -501,22 +569,51 @@ app.put("/api/expenses/:id", requireAuth, async (req, res) => {
             id
         ]);
 
-        if (result.rowCount === 0) {
-            return res.status(404).json({
-                message: "Expense not found or already cancelled"
-            });
-        }
+        // Record who changed it and what changed
+        await client.query(`
+            INSERT INTO expense_edit_history (
+                expense_id,
+                manager_id,
+                manager_username,
+                manager_name,
+                manager_role,
+                old_values,
+                new_values
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `, [
+            id,
+            manager.id,
+            manager.username,
+            manager.display_name,
+            manager.role,
+            JSON.stringify(oldValues),
+            JSON.stringify(newValues)
+        ]);
+
+        await client.query("COMMIT");
 
         res.json({
             message: "Expense updated successfully"
         });
 
     } catch (err) {
-        console.error(err);
+
+        if (client) {
+            await client.query("ROLLBACK").catch(() => {});
+        }
+
+        console.error("Expense update error:", err);
 
         res.status(500).json({
             message: "Failed to update expense"
         });
+
+    } finally {
+
+        if (client) {
+            client.release();
+        }
     }
 });
 
