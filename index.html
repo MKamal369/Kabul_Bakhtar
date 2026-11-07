@@ -452,6 +452,276 @@ tr:hover td{background:#ffffff03}
  font-size:20px;
 }
 
+/* ===== EXPENSE HISTORY MODAL ===== */
+
+.history-modal {
+    z-index: 120;
+    padding: 18px;
+}
+
+.history-modal-box {
+    width: min(980px, 100%);
+    max-height: 90vh;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #ffffff1c;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #102a43, #091a2c);
+    box-shadow: 0 30px 100px #000b;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-modal-top {
+    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(110deg, #16d7c416, #398cff12);
+}
+
+.history-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.history-modal-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    color: var(--cyan);
+    font-size: 22px;
+    background: #16d7c41a;
+    border: 1px solid #16d7c42c;
+}
+
+.history-modal-title h2 {
+    font-size: 18px;
+    margin: 0 0 3px;
+}
+
+.history-modal-title p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.history-count {
+    white-space: nowrap;
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 11px;
+    color: var(--cyan);
+    background: #16d7c414;
+    border: 1px solid #16d7c42b;
+}
+
+.history-modal-body {
+    padding: 22px 26px;
+    overflow: auto;
+}
+
+.history-entry {
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1px solid #ffffff15;
+    border-radius: 17px;
+    background: linear-gradient(145deg, #ffffff08, #ffffff03);
+}
+
+.history-entry:last-child {
+    margin-bottom: 0;
+}
+
+.history-entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 18px;
+    border-bottom: 1px solid #ffffff12;
+}
+
+.history-entry-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.history-index {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #001f20;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+}
+
+.history-entry-title strong {
+    display: block;
+    font-size: 13px;
+}
+
+.history-entry-title small,
+.history-editor small {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.history-editor {
+    text-align: left;
+}
+
+.history-editor span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.history-editor strong {
+    display: block;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.history-table-wrap {
+    overflow-x: auto;
+    padding: 14px 16px 17px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 520px;
+    font-size: 12px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px 14px;
+    text-align: right;
+    border-bottom: 1px solid #ffffff0d;
+}
+
+.history-table thead th {
+    color: #9fb8ca;
+    font-size: 11px;
+    font-weight: 600;
+    background: #ffffff08;
+}
+
+.history-table tbody th {
+    width: 18%;
+    color: #d8e8f4;
+    font-weight: 600;
+    background: #ffffff04;
+}
+
+.history-table tbody td {
+    color: #c1d2df;
+}
+
+.history-table tbody tr:last-child th,
+.history-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.history-before {
+    color: #ffb0ba !important;
+}
+
+.history-after {
+    color: #69e7bd !important;
+}
+
+.history-no-change {
+    text-align: center !important;
+    color: var(--muted) !important;
+}
+
+.history-empty {
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 9px;
+    color: var(--muted);
+}
+
+.history-empty-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 27px;
+    color: var(--cyan);
+    background: #16d7c414;
+    border: 1px solid #16d7c426;
+}
+
+.history-empty strong {
+    color: var(--text);
+    font-size: 14px;
+}
+
+.history-empty span {
+    font-size: 12px;
+}
+
+.history-modal-footer {
+    padding: 14px 26px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (max-width: 600px) {
+    .history-modal {
+        padding: 8px;
+    }
+
+    .history-modal-box {
+        max-height: 95vh;
+        border-radius: 17px;
+    }
+
+    .history-modal-top {
+        padding: 16px;
+        flex-wrap: wrap;
+    }
+
+    .history-modal-body {
+        padding: 14px;
+    }
+
+    .history-entry-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-editor {
+        text-align: right;
+        padding-right: 46px;
+    }
+
+    .history-modal-footer {
+        padding: 12px 16px;
+    }
+}
+
 .empty{
  text-align:center;
  padding:35px;
@@ -1293,6 +1563,70 @@ body.auth-loading {
 </div>
 
 
+<!-- EXPENSE HISTORY MODAL -->
+<div class="modal history-modal"
+     id="expenseHistoryModal"
+     onclick="closeExpenseHistory(event)">
+
+    <div class="history-modal-box"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="expenseHistoryTitle"
+         onclick="event.stopPropagation()">
+
+        <div class="history-modal-top">
+
+            <div class="history-modal-title">
+
+                <div class="history-modal-icon">◷</div>
+
+                <div>
+                    <h2 id="expenseHistoryTitle">
+                        تاریخچه تغییرات مصرف
+                    </h2>
+
+                    <p>
+                        گزارش کامل و مقایسه تغییرات ثبت‌شده
+                    </p>
+                </div>
+
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px">
+
+                <span class="history-count"
+                      id="expenseHistoryCount">
+                    ۰ تغییر ثبت‌شده
+                </span>
+
+                <button class="close"
+                        aria-label="بستن"
+                        onclick="closeExpenseHistory()">
+                    ×
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="history-modal-body"
+             id="expenseHistoryBody">
+        </div>
+
+        <div class="history-modal-footer">
+
+            <button class="btn secondary"
+                    onclick="closeExpenseHistory()">
+                بستن پنجره
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- EXPENSE MODAL -->
 
 <div class="modal" id="expenseModal">
@@ -1422,15 +1756,17 @@ async function loadExpenses() {
         const data = await response.json();
 
         db.expenses = data.map(e => ({
-            id: e.id,
-            date: String(e.expense_date).slice(0, 10),
-            category: e.category,
-            currency: e.currency,
-            amount: Number(e.amount),
-            description: e.description || "",
-            cancelled: Boolean(e.cancelled),
-            cancelledAt: e.cancelled_at
-        }));
+    id: e.id,
+    date: String(e.expense_date).slice(0, 10),
+    category: e.category,
+    currency: e.currency,
+    amount: Number(e.amount),
+    description: e.description || "",
+    cancelled: Boolean(e.cancelled),
+    cancelledAt: e.cancelled_at,
+
+    hasEditHistory: Boolean(e.has_edit_history)
+}));
 
         renderExpenses();
         renderExpenseSummaries();
@@ -2321,6 +2657,7 @@ function newExpense(){
  $("expenseDescription").value="";
 
  $("expenseModal").dataset.editId="";
+ $("expenseModal").dataset.originalValues = "";
 $("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
 
  // Open the modal
@@ -2332,12 +2669,37 @@ $("expenseModal").querySelector("h2").textContent="💸 مصرف روزانه";
 async function saveExpense(){
 
     // Get form values
+    // Get editing ID
+const editId = $("expenseModal").dataset.editId;
     const date = $("expenseDate").value;
     console.log("Selected expense date:", date);
     const category = $("expenseCategory").value;
     const currency = $("expenseCurrency").value;
     const amount = Number($("expenseAmount").value);
     const description = $("expenseDescription").value.trim();
+
+    // Check whether an existing expense was actually changed
+if (editId) {
+
+    const original = JSON.parse(
+        $("expenseModal").dataset.originalValues || "{}"
+    );
+
+    const hasChanges =
+        date !== original.date ||
+        category !== original.category ||
+        currency !== original.currency ||
+        amount !== Number(original.amount) ||
+        description !== (original.description || "").trim();
+
+    if (!hasChanges) {
+
+        alert("هیچ تغییری ایجاد نشده است. لطفاً حداقل یک مورد را تغییر دهید.");
+
+        return;
+    }
+}
+
 
     // Validate date
     if(!date){
@@ -2403,9 +2765,7 @@ async function saveExpense(){
         closeModal("expenseModal");
 
         // Reset editing state
-        $("expenseModal").dataset.editId = "";
-        $("expenseModal").querySelector("h2").textContent = "💸 مصرف روزانه";
-
+     $("expenseModal").querySelector("h2").textContent = "💸 مصرف روزانه";
         // Refresh application
         refresh();
 
@@ -2542,12 +2902,16 @@ function renderExpenses(){
 
                         
 
-                        <button
-                            class="btn secondary"
-                            style="padding:5px 9px"
-                            onclick="showExpenseHistory(${e.id})">
-                            تاریخچه
-                        </button>
+                        ${e.hasEditHistory ? `
+    <button
+        class="btn secondary"
+        style="padding:5px 9px"
+        onclick="showExpenseHistory(${e.id})">
+
+        تاریخچه
+
+    </button>
+` : ""}
 
                     </td>
 
@@ -2811,6 +3175,14 @@ function editExpense(id){
 
  // Store the ID of the expense being edited
  $("expenseModal").dataset.editId=id;
+// Store original values for change detection
+$("expenseModal").dataset.originalValues = JSON.stringify({
+    date: expense.date,
+    category: expense.category,
+    currency: expense.currency,
+    amount: Number(expense.amount),
+    description: (expense.description || "").trim()
+});
 
  // Change modal title
  $("expenseModal").querySelector("h2").textContent="ویرایش مصرف";
@@ -2833,116 +3205,184 @@ async function showExpenseHistory(id) {
 
         const history = await response.json();
 
-        if (history.length === 0) {
-            alert("برای این مصرف هنوز تاریخچه‌ای ثبت نشده است.");
-            return;
-        }
+        const body = $("expenseHistoryBody");
+        const count = $("expenseHistoryCount");
 
-        const details = history.map((item, index) => {
+        count.textContent =
+            `${history.length} تغییر ثبت‌شده`;
 
-            const oldData = item.old_values;
-            const newData = item.new_values;
+        // No history available
+        if (!history.length) {
 
-            const date = new Date(item.edited_at).toLocaleString();
+            body.innerHTML = `
+                <div class="history-empty">
 
-            return `
-                <div style="
-                    border:1px solid #ddd;
-                    padding:12px;
-                    margin:10px 0;
-                    border-radius:8px;
-                ">
+                    <div class="history-empty-icon">◷</div>
 
-                    <h3>تغییر شماره ${index + 1}</h3>
+                    <strong>تاریخچه‌ای ثبت نشده است</strong>
 
-                    <p><strong>مدیر:</strong>
-                        ${esc(item.manager_name || item.manager_username || "-")}
-                    </p>
-
-                    <p><strong>نقش:</strong>
-                        ${esc(item.manager_role || "-")}
-                    </p>
-
-                    <p><strong>زمان:</strong> ${esc(date)}</p>
-
-                    <hr>
-
-                    <p><strong>تاریخ:</strong>
-                        ${esc(String(oldData.expense_date))}
-                        ←
-                        ${esc(String(newData.expense_date))}
-                    </p>
-
-                    <p><strong>دسته‌بندی:</strong>
-                        ${esc(String(oldData.category))}
-                        ←
-                        ${esc(String(newData.category))}
-                    </p>
-
-                    <p><strong>ارز:</strong>
-                        ${esc(String(oldData.currency))}
-                        ←
-                        ${esc(String(newData.currency))}
-                    </p>
-
-                    <p><strong>مبلغ:</strong>
-                        ${esc(String(oldData.amount))}
-                        ←
-                        ${esc(String(newData.amount))}
-                    </p>
-
-                    <p><strong>توضیحات:</strong>
-                        ${esc(String(oldData.description || "-"))}
-                        ←
-                        ${esc(String(newData.description || "-"))}
-                    </p>
+                    <span>
+                        هنوز هیچ تغییری برای این مصرف ثبت نشده است.
+                    </span>
 
                 </div>
             `;
 
-        }).join("");
+        } else {
 
-        const win = window.open("", "_blank", "width=700,height=700");
+            const fields = [
+                ["expense_date", "تاریخ"],
+                ["category", "دسته‌بندی"],
+                ["currency", "ارز"],
+                ["amount", "مبلغ"],
+                ["description", "توضیحات"]
+            ];
 
-        if (!win) {
-            alert("Please allow pop-ups to view expense history.");
-            return;
+            body.innerHTML = history.map((item, index) => {
+
+                const oldData = item.old_values || {};
+                const newData = item.new_values || {};
+
+                const date = item.edited_at
+                    ? new Date(item.edited_at).toLocaleString("fa-IR")
+                    : "-";
+
+                const changes = fields.map(([key, label]) => {
+
+                    const before = oldData[key] ?? "-";
+                    const after = newData[key] ?? "-";
+
+                    if (String(before) === String(after)) {
+                        return "";
+                    }
+
+                    return `
+                        <tr>
+
+                            <th>${label}</th>
+
+                            <td class="history-before">
+                                ${esc(String(before))}
+                            </td>
+
+                            <td class="history-after">
+                                ${esc(String(after))}
+                            </td>
+
+                        </tr>
+                    `;
+
+                }).filter(Boolean).join("");
+
+                return `
+
+                    <section class="history-entry">
+
+                        <div class="history-entry-head">
+
+                            <div class="history-entry-title">
+
+                                <span class="history-index">
+                                    ${history.length - index}
+                                </span>
+
+                                <div>
+
+                                    <strong>ثبت تغییرات</strong>
+
+                                    <small>
+                                        ${esc(date)}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="history-editor">
+
+                                <span>ویرایش‌کننده</span>
+
+                                <strong>
+                                    ${esc(
+                                        item.manager_name ||
+                                        item.manager_username ||
+                                        "-"
+                                    )}
+                                </strong>
+
+                                <small>
+                                    ${esc(item.manager_role || "-")}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="history-table-wrap">
+
+                            <table class="history-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>عنوان</th>
+                                        <th>مقدار قبلی</th>
+                                        <th>مقدار جدید</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    ${
+                                        changes ||
+                                        `
+                                        <tr>
+                                            <td colspan="3"
+                                                class="history-no-change">
+                                                جزئیات تغییرات در دسترس نیست.
+                                            </td>
+                                        </tr>
+                                        `
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </section>
+
+                `;
+
+            }).join("");
+
         }
 
-        win.document.write(`
-            <!DOCTYPE html>
-            <html lang="fa" dir="rtl">
-            <head>
-                <meta charset="UTF-8">
-                <title>تاریخچه مصرف</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        padding: 20px;
-                        background: #f5f5f5;
-                    }
-                    h2 {
-                        text-align: center;
-                    }
-                </style>
-            </head>
-            <body>
-                <h2>تاریخچه تغییرات مصرف</h2>
-                ${details}
-            </body>
-            </html>
-        `);
-
-        win.document.close();
+        $("expenseHistoryModal").classList.add("show");
 
     } catch (error) {
 
         console.error(error);
+
         alert("خطا در دریافت تاریخچه مصرف.");
 
     }
+
 }
 
+
+// Close expense history modal
+function closeExpenseHistory(event) {
+
+    if (!event || event.target === $("expenseHistoryModal")) {
+
+        $("expenseHistoryModal").classList.remove("show");
+
+    }
+
+}
 
 /* ==============================
    داشبورد

@@ -398,17 +398,26 @@ app.get("/", (req, res) => {
 app.get("/api/expenses", requireAuth, async (req, res) => {
     const sql = `
     SELECT
-        id,
-        expense_date::text AS expense_date,
-        category,
-        currency,
-        amount,
-        description,
-        cancelled,
-        cancelled_at
-    FROM expenses
-    WHERE cancelled = 0
-    ORDER BY expense_date DESC
+    expenses.id,
+    expenses.expense_date::text AS expense_date,
+    expenses.category,
+    expenses.currency,
+    expenses.amount,
+    expenses.description,
+    expenses.cancelled,
+    expenses.cancelled_at,
+
+    EXISTS (
+        SELECT 1
+        FROM expense_edit_history
+        WHERE expense_edit_history.expense_id = expenses.id
+    ) AS has_edit_history
+
+FROM expenses
+
+WHERE expenses.cancelled = 0
+
+ORDER BY expenses.expense_date DESC
 `;
 
     try {
